@@ -24,6 +24,7 @@ is_col_latin <- function(R) {
 
 distinct_pairs <- function(R) {
   R %>%
+    pivot_wider() %>%
     filter(!is.na(first)) %>% 
     filter(!is.na(second)) %>%
     distinct(first, second)
