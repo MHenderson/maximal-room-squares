@@ -3,19 +3,15 @@ library(purrr)
 library(tidyr)
 
 is_row_latin_i <- function(R, i, S = 0:max(R$row, na.rm = TRUE)) {
-  x <- R %>%
-    filter(row == i) %>%
-    filter(!is.na(value)) %>%
-    pull(value)
-  length(x) == length(unique(x))
+  u <- R[R$row == i, "value"]$value
+  u <- u[!is.na(u)]
+  length(u) == length(unique(u))
 }
 
 is_col_latin_i <- function(R, i, S = 0:max(R$col, na.rm = TRUE)) {
-  x <- R %>%
-    filter(col == i) %>%
-    filter(!is.na(value)) %>%
-    pull(value)
-  length(x) == length(unique(x))
+  u <- R[R$col == i, "value"]$value
+  u <- u[!is.na(u)]
+  length(u) == length(unique(u))
 }
 
 is_row_latin <- function(R) {
