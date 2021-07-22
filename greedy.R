@@ -3,6 +3,8 @@ library(tictoc)
 
 source("verify.R")
 
+set.seed(55)
+
 tic()
 
 n <- 10
@@ -51,6 +53,3 @@ for(i in 1:nrow(X)) {
 }
 
 toc()
-
-paste("Volume: ", round(n_filled_cells(P)/choose(max(P$col) + 1, 2), 6))
-
