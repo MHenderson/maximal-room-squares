@@ -23,7 +23,7 @@ for(i in 1:nrow(X)) {
   for(j in unique(E$cell_id)) {
     
     # candidate cell
-    c1 <- E %>% filter(cell_id == j)
+    c1 <- E[E$cell_id == j, ]
     # candidate pair
     p1 <- X[i, ]
     
