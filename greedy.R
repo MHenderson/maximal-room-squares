@@ -1,6 +1,9 @@
 library(dplyr)
+library(tictoc)
 
 source("verify.R")
+
+tic()
 
 n <- 30
 
@@ -20,32 +23,38 @@ X <- all_pairs(n - 1)
 for(i in 1:nrow(X)) {
   
   print(i)
-  E <- empty_cells(P)
-  # candidate pair
-  p1 <- X[i, ]
+  print(paste("Volume: ", round(n_filled_cells(P)/choose(max(P$col) + 1, 2), 6)))
   
+  E <- empty_cells(P)
+  
+  # candidate pair
+  candidate_pair <- X[i, ]
+  
+  first_symbol <- candidate_pair[["first"]]
+  second_symbol <- candidate_pair[["second"]]
+    
   for(j in unique(E$cell_id)) {
     
-    # candidate cell
-    c1 <- E[E$cell_id == j, ]
+    candidate_cell <- E[E$cell_id == j, ]
     
-    candidate_first_symbol <- p1[["first"]]
-    candidate_second_symbol <- p1[["second"]]
+    cell_row <- candidate_cell[[1, "row"]]
+    cell_col <- candidate_cell[[1, "col"]]
     
-    candidate_row_used_symbols <- P[P$row == c1[[1, "row"]], ]$value
-    candidate_col_used_symbols <- P[P$col == c1[[1, "col"]], ]$value
+    row_used <- P[P$row == cell_row, ]$value
+    col_used <- P[P$col == cell_col, ]$value
     
-    if(!(candidate_first_symbol %in% candidate_row_used_symbols) &&
-       !(candidate_second_symbol %in% candidate_row_used_symbols) &&
-       !(candidate_first_symbol %in% candidate_col_used_symbols) &&
-       !(candidate_second_symbol %in% candidate_col_used_symbols)) {
+    used <- c(row_used, col_used)
+    
+    if(!(first_symbol %in% used) && !(second_symbol %in% used)) {
       P <- P %>%
-        update(c1[[1, "row"]], c1[[1, "col"]], p1[["first"]], p1[["second"]])
+        update(cell_row, cell_col, first_symbol, second_symbol)
       break()
     }
     
   }
 }
+
+toc()
 
 paste("Volume: ", round(n_filled_cells(P)/choose(max(P$col) + 1, 2), 6))
 
