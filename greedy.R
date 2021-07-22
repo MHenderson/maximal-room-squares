@@ -5,25 +5,16 @@ source("verify.R")
 
 tic()
 
-n <- 30
+n <- 10
 
 P <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(cell_id = 1:((n - 1)^2)) %>%
   mutate(first = as.integer(NA), second = as.integer(NA)) %>%
   pivot_longer(first:second)
 
-# for 1 .. 15
-# choose pair in row i of X
-# place it in the first available square (meaning no Room squares are violated)
-#  i.e. place it in the next unfilled position, check the Room condition, if
-#  violated then try next unfilled position
-# if no square available, move onto next pair
 X <- all_pairs(n - 1)
 
 for(i in 1:nrow(X)) {
-  
-  print(i)
-  print(paste("Volume: ", round(n_filled_cells(P)/choose(max(P$col) + 1, 2), 6)))
   
   E <- empty_cells(P)
   
@@ -32,8 +23,12 @@ for(i in 1:nrow(X)) {
   
   first_symbol <- candidate_pair[["first"]]
   second_symbol <- candidate_pair[["second"]]
+  
+  cell_ids <- unique(E$cell_id)
     
-  for(j in unique(E$cell_id)) {
+  for(j in sample(cell_ids, length(cell_ids))) {
+    
+    #print(paste("Cell: ", j))
     
     candidate_cell <- E[E$cell_id == j, ]
     
@@ -52,6 +47,7 @@ for(i in 1:nrow(X)) {
     }
     
   }
+  print(paste("Symbol: ", i, "Volume: ", round(n_filled_cells(P)/choose(max(P$col) + 1, 2), 6)))
 }
 
 toc()
