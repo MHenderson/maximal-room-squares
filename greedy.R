@@ -2,7 +2,7 @@ library(dplyr)
 
 source("verify.R")
 
-n <- 12
+n <- 30
 
 P <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(cell_id = 1:((n - 1)^2)) %>%
@@ -18,25 +18,32 @@ P <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
 X <- all_pairs(n - 1)
 
 for(i in 1:nrow(X)) {
+  
   print(i)
   E <- empty_cells(P)
+  # candidate pair
+  p1 <- X[i, ]
+  
   for(j in unique(E$cell_id)) {
     
     # candidate cell
     c1 <- E[E$cell_id == j, ]
-    # candidate pair
-    p1 <- X[i, ]
     
-    # provisionally update
-    PP <- P %>%
-      update(c1[[1, "row"]], c1[[1, "col"]], p1[["first"]], p1[["second"]])
+    candidate_first_symbol <- p1[["first"]]
+    candidate_second_symbol <- p1[["second"]]
     
-    # if room conditions hold then really update
-    if(is_row_latin_i(PP, c1[["row"]]) && is_col_latin_i(PP, c1[["col"]])) {
-      P <- PP
+    candidate_row_used_symbols <- P[P$row == c1[[1, "row"]], ]$value
+    candidate_col_used_symbols <- P[P$col == c1[[1, "col"]], ]$value
+    
+    if(!(candidate_first_symbol %in% candidate_row_used_symbols) &&
+       !(candidate_second_symbol %in% candidate_row_used_symbols) &&
+       !(candidate_first_symbol %in% candidate_col_used_symbols) &&
+       !(candidate_second_symbol %in% candidate_col_used_symbols)) {
+      P <- P %>%
+        update(c1[[1, "row"]], c1[[1, "col"]], p1[["first"]], p1[["second"]])
       break()
     }
-
+    
   }
 }
 
