@@ -46,14 +46,9 @@ is_room <- function(R) {
 }
 
 update <- function(R, i, j, first_, second_) {
-  R %>%
-    mutate(
-      value = case_when(
-        row == i & col == j & name == "first" ~ first_,
-        row == i & col == j & name == "second" ~ second_,
-        TRUE ~ value
-      )
-    )
+  R[R$row == i & R$col == j & R$name == "first", "value"] <- first_
+  R[R$row == i & R$col == j & R$name == "second", "value"] <- second_
+  return(R)
 }
 
 empty_cells <- function(R) {
