@@ -9,16 +9,18 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.path = "figure/"
 )
 
-source("R/verify.R")
 source("R/all_pairs.R")
 source("R/avail.R")
 source("R/empty_cells.R")
-source("R/update.R")
 source("R/first_available_cell.R")
+source("R/grid_lines.R")
+source("R/update.R")
 source("R/update_first_available.R")
+source("R/verify.R")
 source("R/volume.R")
 ```
 
@@ -32,7 +34,7 @@ library(dplyr)
 
 set.seed(55)
 
-n <- 10
+n <- 8
 
 # the empty grid in tidy format
 R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
@@ -78,3 +80,20 @@ toc()
 ```{r verify}
 is_partial_room(R)
 ```
+
+```{r plot, echo=FALSE}
+library(ggplot2)
+
+ggplot(data = R %>% pivot_wider(), aes(col, row)) +
+  geom_tile(aes(fill = factor(first))) +
+  geom_tile(aes(fill = factor(second)), height = .5, width = .5) +
+  geom_segment(data = grid_lines(7, 7), aes(x = x, y = y, xend = xend, yend = yend), size = .1) +
+  scale_fill_brewer(palette = "Set1") +
+  scale_y_reverse() +
+  coord_fixed() + 
+  theme_void() +
+  theme(
+    legend.position  = "none"
+  )
+```
+
