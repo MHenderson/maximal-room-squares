@@ -7,7 +7,7 @@ first_available_cell <- function(P, pair) {
   for(cell in sample(E, length(E))) {
     
     if(avail(P, pair, cell)) {
-      return(c(cell[1], cell[2]))
+      return(cell)
     }
     
   }
