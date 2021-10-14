@@ -13,15 +13,7 @@ knitr::opts_chunk$set(
   fig.path = "figure/"
 )
 
-source("R/all_pairs.R")
-source("R/avail.R")
-source("R/empty_cells.R")
-source("R/first_available_cell.R")
-source("R/grid_lines.R")
-source("R/update.R")
-source("R/update_first_available.R")
-source("R/verify.R")
-source("R/volume.R")
+sapply(list.files("R", full.names = TRUE), source)
 ```
 
 # maximal-room-squares
@@ -36,19 +28,10 @@ set.seed(55)
 
 n <- 8
 
-# the empty grid in tidy format
+# an empty tidy room square grid
 R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(first = as.integer(NA), second = as.integer(NA)) %>%
   pivot_longer(first:second)
-```
-
-```{r P}
-P <- all_pairs(n - 1) %>%
-  sample_frac(1) %>%
-  mutate(
-    pairs = map2(first, second, c)
-  ) %>%
-  pull(pairs)
 ```
 
 ```{r main_loop}
@@ -60,7 +43,7 @@ tic()
 # i.e. run through this loop once and return true iff
 # no more cells are filled during the loop. i.e. the
 # empty cells after are precisely the empty cells before
-for(p in P) {
+for(p in combn(0:(n-1), 2, simplify = FALSE)) {
   
   # try to find a hole
   x <- first_available_cell(R, p)
@@ -82,13 +65,14 @@ is_partial_room(R)
 ```
 
 ```{r plot, echo=FALSE}
+library(colorspace)
 library(ggplot2)
 
 ggplot(data = R %>% pivot_wider(), aes(col, row)) +
   geom_tile(aes(fill = factor(first))) +
   geom_tile(aes(fill = factor(second)), height = .5, width = .5) +
-  geom_segment(data = grid_lines(7, 7), aes(x = x, y = y, xend = xend, yend = yend), size = .1) +
-  scale_fill_brewer(palette = "Set1") +
+  geom_segment(data = grid_lines(n-1, n-1), aes(x = x, y = y, xend = xend, yend = yend), size = .1) +
+  scale_fill_discrete_qualitative() +
   scale_y_reverse() +
   coord_fixed() + 
   theme_void() +
