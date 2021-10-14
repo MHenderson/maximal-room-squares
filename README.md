@@ -33,7 +33,7 @@ while(!is_maximal_room(R)) {
 }
 
 toc()
-#> 2.193 sec elapsed
+#> 1.755 sec elapsed
 ```
 
 ``` r
