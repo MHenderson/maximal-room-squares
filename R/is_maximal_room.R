@@ -17,5 +17,5 @@ is_maximal_room <- function(R) {
     
   }
   
-  return(result)
+  return(result && is_partial_room(R))
 }

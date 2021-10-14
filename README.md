@@ -33,12 +33,7 @@ while(!is_maximal_room(R)) {
 }
 
 toc()
-#> 2.196 sec elapsed
-```
-
-``` r
-is_partial_room(R)
-#> [1] TRUE
+#> 2.193 sec elapsed
 ```
 
 ``` r

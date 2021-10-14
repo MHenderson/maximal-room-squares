@@ -50,10 +50,6 @@ while(!is_maximal_room(R)) {
 toc()
 ```
 
-```{r is_partial_room}
-is_partial_room(R)
-```
-
 ```{r is_maximal_room}
 is_maximal_room(R)
 ```
