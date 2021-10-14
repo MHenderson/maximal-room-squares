@@ -97,7 +97,7 @@ for(p in P) {
 #> , , 2, 3, 0.8
 #> , , 0, 6, 0.8
 toc()
-#> 0.674 sec elapsed
+#> 0.708 sec elapsed
 ```
 
 ``` r

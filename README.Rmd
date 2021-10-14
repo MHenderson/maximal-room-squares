@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-source("verify.R")
+source("R/verify.R")
 source("R/all_pairs.R")
 source("R/avail.R")
 source("R/empty_cells.R")
