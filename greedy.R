@@ -24,10 +24,10 @@ avail <- function(P, pair, cell) {
   
   # look in the first row of the candidate cell
   # data frame for the row index
-  cell_row <- cell[[1, "row"]]
+  cell_row <- cell[1]
   # look in the first row of the candidate cell
   # data frame for the col index
-  cell_col <- cell[[1, "col"]]
+  cell_col <- cell[2]
   
   # a vector of all symbols used in the row under consideration
   row_used <- P[P$row == cell_row, ]$value
@@ -45,21 +45,22 @@ avail <- function(P, pair, cell) {
 }
 
 # try to find a home for pair in P
-f <- function(P, pair) {
+first_available_cell <- function(P, pair) {
   
   # which cells are still empty?
   E <- empty_cells(P)
+  E <- map2(E$row, E$col, c)
   
   # the ids of empty cells
-  cell_ids <- unique(E$cell_id)
+  #cell_ids <- unique(E$cell_id)
   
   # iterate through the empty cells in a random order
-  for(j in sample(cell_ids, length(cell_ids))) {
+  for(j in sample(1:length(E), length(E))) {
     
     # the candidate cell is actually a data frame
     # with two rows, on for the first symbol
     # and one row for the second symbol
-    cell <- E[E$cell_id == j, ]
+    cell <- E[[j]]
     
     # if both the first and second symbols in the candidate pair
     # are missing from the row and column under consideration
@@ -67,7 +68,7 @@ f <- function(P, pair) {
     # pair under consideration in the current cell under consideration
     # then we immediately exit the loop (do we?)
     if(avail(P, pair, cell)) {
-      return(c(cell[[1, "row"]], cell[[1, "col"]]))
+      return(c(cell[1], cell[2]))
     }
     
   }
@@ -76,10 +77,10 @@ f <- function(P, pair) {
 # given a partial room square P
 # and a pair
 # try to find a hole for that pair and fill it
-g <- function(P, pair) {
+update_first_available <- function(P, pair) {
   
   # try to find a hole
-  x <- f(P, pair)
+  x <- first_available_cell(P, pair)
   
   # if we were successful then fill that hole
   if(!is.null(x))  {
@@ -100,7 +101,7 @@ for(i in 1:length(X)) {
   # candidate pair
   candidate_pair <- X[[i]]
   
-  P <- g(P, candidate_pair)
+  P <- update_first_available(P, candidate_pair)
 
 }
 
