@@ -21,42 +21,28 @@ sapply(list.files("R", full.names = TRUE), source)
 <!-- badges: start -->
 <!-- badges: end -->
 
-```{r R}
+```{r find_maximal_room}
 library(dplyr)
+library(tictoc)
 
 set.seed(55)
 
 n <- 16
 
-# an empty tidy room square grid
 R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(first = as.integer(NA), second = as.integer(NA)) %>%
   pivot_longer(first:second)
-```
-
-```{r main_loop}
-library(tictoc)
 
 tic()
-# go through each symbol and try to place it in a cell
-# this can be the basis of is_maximal
-# i.e. run through this loop once and return true iff
-# no more cells are filled during the loop. i.e. the
-# empty cells after are precisely the empty cells before
 
 while(!is_maximal_room(R)) {
   for(p in not_used_pairs(R)) {
   
-  # try to find a hole
   x <- first_available_cell(R, p)
   
-  # if we were successful then fill that hole
   if(!is.null(x))  {
     R <- update_(R, x, p)
   }
-  
-  csv_line <- paste(x[1], x[2], p[1], p[2], volume(R), sep = ", ")
-  message(csv_line)
   
   }
 }
