@@ -1,5 +1,5 @@
-update_ <- function(R, i, j, first_, second_) {
-  R[R$row == i & R$col == j & R$name == "first", "value"] <- first_
-  R[R$row == i & R$col == j & R$name == "second", "value"] <- second_
+update_ <- function(R, cell, pair) {
+  R[R$row == cell[1] & R$col == cell[2] & R$name == "first", "value"] <- pair[1]
+  R[R$row == cell[1] & R$col == cell[2] & R$name == "second", "value"] <- pair[2]
   return(R)
 }
