@@ -1,0 +1,80 @@
+---
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+source("verify.R")
+source("R/all_pairs.R")
+source("R/avail.R")
+source("R/empty_cells.R")
+source("R/update.R")
+source("R/first_available_cell.R")
+source("R/update_first_available.R")
+source("R/volume.R")
+```
+
+# maximal-room-squares
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+```{r R}
+library(dplyr)
+
+set.seed(55)
+
+n <- 10
+
+# the empty grid in tidy format
+R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
+  mutate(first = as.integer(NA), second = as.integer(NA)) %>%
+  pivot_longer(first:second)
+```
+
+```{r P}
+P <- all_pairs(n - 1) %>%
+  sample_frac(1) %>%
+  mutate(
+    pairs = map2(first, second, c)
+  ) %>%
+  pull(pairs)
+```
+
+```{r main_loop}
+library(tictoc)
+
+tic()
+# go through each symbol and try to place it in a cell
+# this can be the basis of is_maximal
+# i.e. run through this loop once and return true iff
+# no more cells are filled during the loop. i.e. the
+# empty cells after are precisely the empty cells before
+for(p in P) {
+  
+  # try to find a hole
+  x <- first_available_cell(R, p)
+  
+  # if we were successful then fill that hole
+  if(!is.null(x))  {
+    R <- update_(R, x, p)
+  }
+  
+  csv_line <- paste(x[1], x[2], p[1], p[2], volume(R), sep = ", ")
+  message(csv_line)
+  
+}
+toc()
+```
+
+```{r verify}
+is_partial_room(R)
+```
