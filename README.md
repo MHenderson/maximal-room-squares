@@ -28,20 +28,22 @@ E <- empty_cells(R)
 E <- E[order(sapply(sapply(E, diff), abs), decreasing = TRUE)]
 
 tic()
-# iterate through un-used pairs in given order
-for(p in P) {
+# iterate through empty cells in given order
+for(e in E) {
   
-  # iterate through empty cells in given order
-  for(e in E) {
+  # iterate through un-used pairs in given order
+  for(p in P) {
     
     # if empty cell e is suitable for pair p
     # then:
     # assign p to cell e,
     # remove cell e from the list of empty cells
+    # remove cell p from the list of pairs
     # and stop
     if(avail(R, p, e)) {
       R <- update_(R, e, p)
       E <- E[-match(list(e), E)]
+      P <- P[-match(list(p), P)]
       break()
     }
     
@@ -49,7 +51,7 @@ for(p in P) {
   
 }
 toc()
-#> 0.144 sec elapsed
+#> 0.141 sec elapsed
 ```
 
 ``` r
