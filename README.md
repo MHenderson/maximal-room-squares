@@ -32,16 +32,16 @@ tic()
 for(p in P) {
   
   # iterate through empty cells in given order
-  for(i in 1:length(E)) {
+  for(e in E) {
     
-    # if empty cell E[[i]] is suitable for pair p
+    # if empty cell e is suitable for pair p
     # then:
-    # assign p to cell E[[i]],
-    # remove cell E[[i]] from the list of empty cells
+    # assign p to cell e,
+    # remove cell e from the list of empty cells
     # and stop
-    if(avail(R, p, E[[i]])) {
-      R <- update_(R, E[[i]], p)
-      E <- E[-i]
+    if(avail(R, p, e)) {
+      R <- update_(R, e, p)
+      E <- E[-match(list(e), E)]
       break()
     }
     
@@ -49,7 +49,7 @@ for(p in P) {
   
 }
 toc()
-#> 0.133 sec elapsed
+#> 0.144 sec elapsed
 ```
 
 ``` r
