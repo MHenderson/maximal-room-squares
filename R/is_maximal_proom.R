@@ -5,9 +5,19 @@ is_maximal_proom <- function(R) {
   # iterate through the set of unusued pairs trying to place them
   # return true if and only if no pairs can be placed
   for(p in not_used_pairs(R)) {
-    
+   
+    E <- empty_cells(R) 
     # try to find a hole
-    x <- first_available_cell(R, p)
+    x <- NULL
+    
+    # iterate through empty cells in given order
+    for(cell in E) {
+      
+      if(avail(R, p, cell)) {
+        x <- cell
+      }
+      
+    }
     
     # if we were successful then this is not a maximal proom
     if(!is.null(x))  {

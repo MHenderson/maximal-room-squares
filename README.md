@@ -13,7 +13,7 @@ library(tictoc)
 set.seed(55)
 
 # the order of Room square we are looking for
-n <- 16
+n <- 10
 
 # a data frame representing an empty Room square
 # of the desired order
@@ -28,8 +28,18 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
 tic()
 for(p in not_used_pairs(R)) {
   
-  # find an available cell x for p
-  x <- first_available_cell(R, p)
+  E <- empty_cells(R)
+  
+  x <- NULL
+  
+  # iterate through empty cells in given order
+  for(cell in E) {
+    
+    if(avail(R, p, cell)) {
+      x <- cell
+    }
+    
+  }
   
   # if one exists then update R by placing p in x
   if(!is.null(x))  {
@@ -38,7 +48,7 @@ for(p in not_used_pairs(R)) {
   
 }
 toc()
-#> 0.568 sec elapsed
+#> 0.43 sec elapsed
 ```
 
 ``` r
