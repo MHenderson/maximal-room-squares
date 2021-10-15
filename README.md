@@ -20,49 +20,36 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   pivot_longer(first:second)
 
 # pairs to be used in order
-# i'd like to visit them in order 1,2 3,4 5,6 7,8 etc ...
-# so we see every symbol as quickly as possible
-# probably easier to work with the data frame representation
 P <- not_used_pairs(R)
 P <- P[order(sapply(P, diff), decreasing = TRUE)]
 
-# go through all of the pairs that haven't yet been
-# used in R (all of them, in this case) and try to
-# place them in an empty cell x. if a suitable x is
-# found then update R.
+# empty cells to be visited in order
+E <- empty_cells(R)
+E <- E[order(sapply(sapply(E, diff), abs), decreasing = TRUE)]
+
 tic()
+# iterate through un-used pairs in given order
 for(p in P) {
   
-  # cells to be visited in order
-  E <- empty_cells(R)
-  
-  # an example of a different ordering,
-  # based on distance from main diagonal
-  # visiting those cells closest to the
-  # main diagonal first
-  E <- E[order(sapply(sapply(E, diff), abs), decreasing = TRUE)]
-
-  # provisional available cell
-  x <- NULL
-  
   # iterate through empty cells in given order
-  for(cell in E) {
+  for(i in 1:length(E)) {
     
-    if(avail(R, p, cell)) {
-      x <- cell
+    # if empty cell E[[i]] is suitable for pair p
+    # then:
+    # assign p to cell E[[i]],
+    # remove cell E[[i]] from the list of empty cells
+    # and stop
+    if(avail(R, p, E[[i]])) {
+      R <- update_(R, E[[i]], p)
+      E <- E[-i]
       break()
     }
     
   }
   
-  # if an available cell x is found then update R by placing p in x
-  if(!is.null(x))  {
-    R <- update_(R, x, p)
-  }
-  
 }
 toc()
-#> 0.191 sec elapsed
+#> 0.133 sec elapsed
 ```
 
 ``` r
