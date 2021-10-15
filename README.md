@@ -11,7 +11,7 @@ library(dplyr)
 library(tictoc)
 
 # the order of Room square we are looking for
-n <- 16
+n <- 10
 
 # a data frame representing an empty Room square
 # of the desired order
@@ -20,7 +20,11 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   pivot_longer(first:second)
 
 # pairs to be used in order
+# i'd like to visit them in order 1,2 3,4 5,6 7,8 etc ...
+# so we see every symbol as quickly as possible
+# probably easier to work with the data frame representation
 P <- not_used_pairs(R)
+P <- P[order(sapply(P, diff), decreasing = TRUE)]
 
 # go through all of the pairs that haven't yet been
 # used in R (all of them, in this case) and try to
@@ -46,6 +50,7 @@ for(p in P) {
     
     if(avail(R, p, cell)) {
       x <- cell
+      break()
     }
     
   }
@@ -57,7 +62,7 @@ for(p in P) {
   
 }
 toc()
-#> 2.491 sec elapsed
+#> 0.191 sec elapsed
 ```
 
 ``` r
