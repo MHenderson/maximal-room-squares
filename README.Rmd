@@ -49,7 +49,7 @@ toc()
 ```
 
 ```{r is_maximal_room}
-is_maximal_room(R)
+is_maximal_proom(R)
 ```
 
 ```{r plot, echo=FALSE, message=FALSE, fig.width=9, fig.height=9}
@@ -69,7 +69,7 @@ ggplot(data = R %>% pivot_wider(), aes(col, row)) +
     legend.position  = "none"
   ) +
   labs(
-    title = glue("A maximal Room square of order {n}"),
+    title = glue("A maximal partial Room square of order {n}"),
     subtitle = glue("Number of filled cells: {nf}, Volume: {v}.")
   )
 ```

@@ -20,8 +20,7 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
 
 tic()
 
-while(!is_maximal_room(R)) {
-  for(p in not_used_pairs(R)) {
+for(p in not_used_pairs(R)) {
   
   x <- first_available_cell(R, p)
   
@@ -29,15 +28,14 @@ while(!is_maximal_room(R)) {
     R <- update_(R, x, p)
   }
   
-  }
 }
 
 toc()
-#> 1.691 sec elapsed
+#> 1.305 sec elapsed
 ```
 
 ``` r
-is_maximal_room(R)
+is_maximal_proom(R)
 #> [1] TRUE
 ```
 

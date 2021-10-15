@@ -1,6 +1,6 @@
-is_maximal_room <- function(R) {
+is_maximal_proom <- function(R) {
  
-  result <- TRUE
+  result <- is_partial_room(R)
   
   # iterate through the set of unusued pairs trying to place them
   # return true if and only if no pairs can be placed
@@ -9,7 +9,7 @@ is_maximal_room <- function(R) {
     # try to find a hole
     x <- first_available_cell(R, p)
     
-    # if we were successful then fill that hole
+    # if we were successful then this is not a maximal proom
     if(!is.null(x))  {
       result <- FALSE
       break()
@@ -17,5 +17,5 @@ is_maximal_room <- function(R) {
     
   }
   
-  return(result && is_partial_room(R))
+  return(result)
 }
