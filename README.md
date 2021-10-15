@@ -41,7 +41,7 @@ for(e in E) {
     # remove cell p from the list of pairs
     # and stop
     if(avail(R, p, e)) {
-      R <- update_(R, e, p)
+      R[R$row == e[1] & R$col == e[2], "value"] <- p
       E <- E[-match(list(e), E)]
       P <- P[-match(list(p), P)]
       break()
@@ -51,7 +51,7 @@ for(e in E) {
   
 }
 toc()
-#> 0.141 sec elapsed
+#> 0.133 sec elapsed
 ```
 
 ``` r
