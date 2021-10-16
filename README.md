@@ -23,11 +23,13 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
 
 # pairs to be used in order
 P <- not_used_pairs(R)
-P <- P[order(sapply(P, diff), decreasing = TRUE)]
+P <- list(c(0, 1), c(0, 2), c(0, 3), c(0, 4), c(1, 2), c(1, 3), c(1, 5), c(2, 3), c(2, 6), c(4, 5), c(4, 6), c(4, 7), c(4, 8), c(4, 9), c(5, 6), c(5, 7), c(5, 8), c(5, 9), c(6, 7), c(6, 8), c(6, 9), c(7, 8), c(7, 9), c(8, 9))
+#P <- P[order(sapply(P, diff), decreasing = TRUE)]
 
 # empty cells to be visited in order
-E <- empty_cells(R)
-E <- E[order(sapply(sapply(E, diff), abs), decreasing = TRUE)]
+#E <- empty_cells(R)
+E <- list(c(1, 1), c(2, 2), c(3, 3), c(4, 4), c(3, 4), c(4, 2), c(2, 3), c(5, 5), c(4, 3), c(1, 2), c(6, 6), c(7, 7), c(8, 8), c(9, 9), c(7, 8), c(9, 6), c(6, 9), c(8, 7), c(8, 9), c(9, 7), c(1, 4), c(2, 1), c(6, 8), c(7, 6))
+#E <- E[order(sapply(sapply(E, diff), abs), decreasing = TRUE)]
 ```
 
 ``` r
@@ -72,7 +74,7 @@ for(e in E) {
   
 }
 toc()
-#> 0.158 sec elapsed
+#> 0.13 sec elapsed
 ```
 
 ``` r
@@ -113,9 +115,10 @@ for(e in E) {
   if(length(available) < 2) { next() }
   
   # these are the available pairs
+  # this possibly doesn't work
   Pe <- intersect(P, combn(available, 2, simplify = FALSE))
   
-  # if there are none, then move to the next empty cell
+  # if there are none then move to the next empty cell
   if(length(Pe) < 1) { next() }
 
   # choose the first suitable pair
@@ -137,7 +140,13 @@ for(e in E) {
 
 }
 toc()
-#> 0.159 sec elapsed
+#> 0.158 sec elapsed
+```
+
+``` r
+# is R a maximal partial Room square?
+is_maximal_proom(R)
+#> [1] TRUE
 ```
 
 ![](figure/plot2-1.png)<!-- -->
