@@ -18,8 +18,7 @@ n <- 10
 # q. is the pivot_longer really needed?
 R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(first = as.integer(NA), second = as.integer(NA)) %>%
-  mutate(avail = list(0:(n - 1))) %>%
-  pivot_longer(first:second)
+  mutate(avail = list(0:(n - 1)))
 
 # pairs to be used in order
 P <- not_used_pairs(R)
@@ -56,7 +55,8 @@ for(e in E) {
     if(p[1] %in% available && p[2] %in% available) {
 
       # assign p to cell e,
-      R[R$row == e[1] & R$col == e[2], "value"] <- p
+      R[R$row == e[1] & R$col == e[2], "first"] <- p[1]
+      R[R$row == e[1] & R$col == e[2], "second"] <- p[2]
 
       # remove cell e from the list of empty cells
       E <- E[-match(list(e), E)]
@@ -75,7 +75,7 @@ for(e in E) {
   
 }
 toc()
-#> 0.144 sec elapsed
+#> 0.17 sec elapsed
 ```
 
 ``` r
@@ -92,8 +92,7 @@ is_maximal_proom(R)
 # q. is the pivot_longer really needed?
 R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(first = as.integer(NA), second = as.integer(NA)) %>%
-  mutate(avail = list(0:(n - 1))) %>%
-  pivot_longer(first:second)
+  mutate(avail = list(0:(n - 1)))
 
 # pairs to be used in order
 P <- not_used_pairs(R)
@@ -122,7 +121,8 @@ for(e in E) {
   p <- Pe[[1]]
 
   # assign p to cell e,
-  R[R$row == e[1] & R$col == e[2], "value"] <- p
+  R[R$row == e[1] & R$col == e[2], "first"] <- p[1]
+  R[R$row == e[1] & R$col == e[2], "second"] <- p[2]
 
   # remove cell e from the list of empty cells
   E <- E[-match(list(e), E)]
@@ -136,7 +136,7 @@ for(e in E) {
 
 }
 toc()
-#> 0.134 sec elapsed
+#> 0.23 sec elapsed
 ```
 
 ![](figure/plot2-1.png)<!-- -->

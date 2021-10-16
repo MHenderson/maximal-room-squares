@@ -1,7 +1,7 @@
 not_used_pairs <- function(R) {
   n <- max(R$row) + 1
   # find the pairs already used
-  used_pairs <- R %>% pivot_wider() %>% filter(!is.na(first)) %>% select(first, second)
+  used_pairs <- R %>% select(first, second)
   # construct the set of pairs not used (namely all pairs minus used pairs)
   x <- combn(0:(n-1), 2)
   
