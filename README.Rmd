@@ -32,6 +32,7 @@ n <- 10
 # of the desired order
 R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(first = as.integer(NA), second = as.integer(NA)) %>%
+  mutate(missing_row = list(0:(n - 1)), missing_col = list(0:(n - 1))) %>%
   pivot_longer(first:second)
 
 # pairs to be used in order
@@ -54,11 +55,25 @@ for(e in E) {
     # assign p to cell e,
     # remove cell e from the list of empty cells
     # remove cell p from the list of pairs
+    # remove both elements of p from lists of symbols missing in row e[1]
+    # remove both elements of p from lists of symbols missing in col e[2]
     # and stop
     if(avail(R, p, e)) {
+
+      # assign p to cell e,
       R[R$row == e[1] & R$col == e[2], "value"] <- p
+
+      # remove cell e from the list of empty cells
       E <- E[-match(list(e), E)]
+      # remove cell p from the list of pairs
       P <- P[-match(list(p), P)]
+
+      # remove both elements of p from lists of symbols missing in row e[1]
+      R[R$row == e[1], "missing_row"]$missing_row <- lapply(R[R$row == e[1], "missing_row"]$missing_row, remove_both, p)
+      
+      # remove both elements of p from lists of symbols missing in col e[2]
+      R[R$col == e[2], "missing_col"]$missing_col <- lapply(R[R$col == e[2], "missing_col"]$missing_col, remove_both, p)
+
       break()
     }
     
