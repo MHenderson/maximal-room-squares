@@ -6,6 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
+## I: Nested loops
+
 ``` r
 library(dplyr)
 library(tictoc)
@@ -15,7 +17,6 @@ n <- 10
 
 # a data frame representing an empty Room square
 # of the desired order
-# q. is the pivot_longer really needed?
 R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(first = as.integer(NA), second = as.integer(NA)) %>%
   mutate(avail = list(0:(n - 1)))
@@ -38,10 +39,6 @@ for(e in E) {
   available <- R[R$row == e[1] & R$col == e[2], "avail"]$avail[[1]]
 
   # iterate through un-used pairs in given order
-  # shouldn't we only be looking at pairs from available?
-  # i.e. the intersection of P and subsets of size 2 from available
-  # then we don't even need to iterate, we simply choose the
-  # first element of that subset, if it's non-empty
   for(p in P) {
     
     # if empty cell e is suitable for pair p
@@ -75,7 +72,7 @@ for(e in E) {
   
 }
 toc()
-#> 0.17 sec elapsed
+#> 0.158 sec elapsed
 ```
 
 ``` r
@@ -86,10 +83,11 @@ is_maximal_proom(R)
 
 ![](figure/plot-1.png)<!-- -->
 
+## II: Calculate available pairs
+
 ``` r
 # a data frame representing an empty Room square
 # of the desired order
-# q. is the pivot_longer really needed?
 R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(first = as.integer(NA), second = as.integer(NA)) %>%
   mutate(avail = list(0:(n - 1)))
@@ -111,13 +109,16 @@ for(e in E) {
   # these symbols are available
   available <- R[R$row == e[1] & R$col == e[2], "avail"]$avail[[1]]
   
+  # if there are fewer than 2 available symbols then move to the next empty cell
   if(length(available) < 2) { next() }
   
-  # these pairs are available
+  # these are the available pairs
   Pe <- intersect(P, combn(available, 2, simplify = FALSE))
   
+  # if there are none, then move to the next empty cell
   if(length(Pe) < 1) { next() }
 
+  # choose the first suitable pair
   p <- Pe[[1]]
 
   # assign p to cell e,
@@ -136,7 +137,7 @@ for(e in E) {
 
 }
 toc()
-#> 0.23 sec elapsed
+#> 0.159 sec elapsed
 ```
 
 ![](figure/plot2-1.png)<!-- -->
