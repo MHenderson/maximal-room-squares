@@ -85,7 +85,7 @@ for(e in E) {
   
 }
 toc()
-#> 0.151 sec elapsed
+#> 0.152 sec elapsed
 ```
 
 ``` r
@@ -160,7 +160,7 @@ for(p in P) {
   
 }
 toc()
-#> 0.365 sec elapsed
+#> 0.316 sec elapsed
 ```
 
 ``` r
@@ -260,7 +260,7 @@ for(e in E) {
 
 }
 toc()
-#> 0.376 sec elapsed
+#> 0.331 sec elapsed
 ```
 
 ``` r
@@ -324,6 +324,54 @@ The volume can only happen between gaps. Does that help? Do the gaps and
 the drop heights conspire together to limit the total volume. Actually,
 what we are interested in is low volume. We want to show that a certain
 minimum volume is required.
+
+``` r
+X <- X %>%
+  arrange(desc(m)) %>%
+  mutate(
+    dm = lag(m),
+    d = dm - m
+  )
+```
+
+Plot the differences.
+
+``` r
+ggplot(X, aes(x = 1:81, y = d)) +
+  geom_col(width = 1, alpha = .5)
+#> Warning: Removed 1 rows containing missing values (position_stack).
+```
+
+![](figure/plot_X_d-1.png)<!-- -->
+
+Plot a histogram of the non-zero differences.
+
+``` r
+ggplot(X %>% filter(d != 0), aes(d)) +
+  geom_histogram()
+#> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+![](figure/plot_hist_d-1.png)<!-- -->
+
+Sum these differences with their weights gives the total number of
+unordered pairs.
+
+``` r
+11*1 + 1*2 + 1*3 + 1*4 + 1*6 + 1*8 + 1*11
+#> [1] 45
+```
+
+Is there some symmetry going on here?
+
+What does 11 + 1 + 1 + 1 + 1 + 1 + 1 = 17 correspond to?
+
+What does 1 + 2 + 3 + 4 + 6 + 8 + 11 = 35 correspond to?
+
+Where is the 24? It’s the number of columns in the plot.
+
+Is it possible to find 23 columns whose differences when arranged in
+order sum to 45? Of course. Surely.
 
 # References
 

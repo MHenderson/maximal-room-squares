@@ -470,4 +470,45 @@ conspire together to limit the total volume. Actually,
 what we are interested in is low volume. We want to
 show that a certain minimum volume is required.
 
+```{r X_d_dm}
+X <- X %>%
+  arrange(desc(m)) %>%
+  mutate(
+    dm = lag(m),
+    d = dm - m
+  )
+```
+
+Plot the differences.
+
+```{r plot_X_d}
+ggplot(X, aes(x = 1:81, y = d)) +
+  geom_col(width = 1, alpha = .5)
+```
+
+Plot a histogram of the non-zero differences.
+
+```{r plot_hist_d}
+ggplot(X %>% filter(d != 0), aes(d)) +
+  geom_histogram()
+```
+
+Sum these differences with their weights gives the total number of
+unordered pairs.
+
+```{r}
+11*1 + 1*2 + 1*3 + 1*4 + 1*6 + 1*8 + 1*11
+```
+
+Is there some symmetry going on here?
+
+What does 11 + 1 + 1 + 1 + 1 + 1 + 1 = 17 correspond to?
+
+What does 1 + 2 + 3 + 4 + 6 + 8 + 11 = 35 correspond to?
+
+Where is the 24? It's the number of columns in the plot.
+
+Is it possible to find 23 columns whose differences when
+arranged in order sum to 45? Of course. Surely.
+
 # References
