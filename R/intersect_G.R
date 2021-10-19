@@ -9,9 +9,6 @@ intersect_g <- function(X, Y) {
 
 intersect_G <- function(x, y) {
   xx <- intersect_g(t(mapply(c, x)), t(mapply(c, y)))
-  if(nrow(xx) > 1) {
-    xx <- xx[order(xx[, 1], xx[, 2], decreasing = FALSE),]
-  }
-  #lapply(unlist(apply(xx, 1, list), recursive = FALSE), as.integer)
-  unlist(apply(xx, 1, list), recursive = FALSE)
+  xx <- unlist(apply(xx, 1, list), recursive = FALSE)
+  xx[order(match(xx, x))]
 }
