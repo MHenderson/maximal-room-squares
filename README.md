@@ -85,7 +85,7 @@ for(e in E) {
   
 }
 toc()
-#> 0.14 sec elapsed
+#> 0.142 sec elapsed
 ```
 
 ``` r
@@ -160,7 +160,7 @@ for(p in P) {
   
 }
 toc()
-#> 0.321 sec elapsed
+#> 0.339 sec elapsed
 ```
 
 ``` r
@@ -188,18 +188,14 @@ afterwards we can inspect those sets.
 # a data frame representing an empty Room square
 # of the desired order
 R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
-  mutate(first = as.integer(NA), second = as.integer(NA)) %>%
-  mutate(avail = list(0:(n - 1)))
+  mutate(first = as.numeric(NA), second = as.numeric(NA)) %>%
+  mutate(avail = list(1:n))
 
-# pairs to be used in order
-P <- not_used_pairs(R)
-#P <- sample(P, length(P))
-#P <- P[order(sapply(P, diff), decreasing = TRUE)]
+P <- list(c(1, 2), c(1, 3), c(1, 4), c(1, 5), c(2, 3), c(2, 4), c(2, 6), c(3, 4), c(3, 7), c(5, 6), c(5, 7), c(5, 8), c(5, 9), c(5, 10), c(6, 7), c(6, 8), c(6, 9), c(6, 10), c(7, 8), c(7, 9), c(7, 10), c(8, 9), c(8, 10), c(9, 10))
+#P <- lapply(P, as.integer)
 
-# empty cells to be visited in order
-E <- empty_cells(R)
-#E <- sample(E, length(E))
-#E <- E[order(sapply(sapply(E, diff), abs), decreasing = TRUE)]
+E <- list(c(1, 1), c(2, 2), c(3, 3), c(4, 4), c(3, 4), c(4, 2), c(2, 3), c(5, 5), c(4, 3), c(1, 2), c(6, 6), c(7, 7), c(8, 8), c(9, 9), c(7, 8), c(9, 6), c(6, 9), c(8, 7), c(8, 9), c(9, 7), c(1, 4), c(2, 1), c(6, 8), c(7, 6))
+#E <- lapply(E, as.integer)
 ```
 
 ``` r
@@ -225,7 +221,10 @@ for(e in E) {
   
   # these are the available pairs
   # this possibly doesn't work
-  Pe <- intersect(P, combn(available, 2, simplify = FALSE))
+  # perhaps i can use a graph instead to keep track?
+  # or implement my own version of intersect in this case
+  # using graphs as the underlying mechanism?
+  Pe <- intersect_G(P, combn(available, 2, simplify = FALSE))
   
   # if there are none then move to the next empty cell
   if(length(Pe) < 1) {
@@ -262,7 +261,7 @@ for(e in E) {
 
 }
 toc()
-#> 0.237 sec elapsed
+#> 0.251 sec elapsed
 ```
 
 ``` r
@@ -289,6 +288,8 @@ There’s nothing to prevent us from ordering the points in descending
 order. Or turning the points into columns.
 
 ![](figure/Xplot2-1.png)<!-- -->
+
+In this plot the sum of the differences in height equals 45.
 
 At first I wondered if a proof might be possible based on the slope of
 this curve. Are there some constraints that prevent this curve from
