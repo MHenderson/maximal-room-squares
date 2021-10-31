@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 In this section we process cells in order but when we are considering
 which pairs to place in the current cell we only consider those
 pairs that are available for the current cell. We calculate the available
@@ -10,109 +15,52 @@ Below, for example, we track the sets Pe as the algorithm runs
 so that afterwards we can inspect those sets.
 
 ```{r greedy3_init}
-# a data frame representing an empty Room square
-# of the desired order
-R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
-  mutate(first = as.numeric(NA), second = as.numeric(NA)) %>%
-  mutate(avail = list(1:n))
-
-P <- list(c(1, 2), c(1, 3), c(1, 4), c(1, 5), c(2, 3), c(2, 4), c(2, 6), c(3, 4), c(3, 7), c(5, 6), c(5, 7), c(5, 8), c(5, 9), c(5, 10), c(6, 7), c(6, 8), c(6, 9), c(6, 10), c(7, 8), c(7, 9), c(7, 10), c(8, 9), c(8, 10), c(9, 10), c(1, 6), c(1, 7), c(1, 8), c(1, 9), c(1, 10), c(2, 5), c(2, 7), c(2, 8), c(2, 9), c(2, 10), c(3, 5), c(3, 6), c(3, 8), c(3, 9), c(3, 10), c(4, 5), c(4, 6), c(4, 7), c(4, 8), c(4, 9), c(4, 10))
-
-E <- list(c(1, 1), c(2, 2), c(3, 3), c(4, 4), c(3, 4), c(4, 2), c(2, 3), c(5, 5), c(4, 3), c(1, 2), c(6, 6), c(7, 7), c(8, 8), c(9, 9), c(7, 8), c(9, 6), c(6, 9), c(8, 7), c(8, 9), c(9, 7), c(1, 4), c(2, 1), c(6, 8), c(7, 6), c(1, 3), c(1, 5), c(1, 6), c(1, 7), c(1, 8), c(1, 9), c(2, 4), c(2, 5), c(2, 6), c(2, 7), c(2, 8), c(2, 9), c(3, 1), c(3, 2), c(3, 5), c(3, 6), c(3, 7), c(3, 8), c(3, 9), c(4, 1), c(4, 5), c(4, 6), c(4, 7), c(4, 8), c(4, 9), c(5, 1), c(5, 2), c(5, 3), c(5, 4), c(5, 6), c(5, 7), c(5, 8), c(5, 9), c(6, 1), c(6, 2), c(6, 3), c(6, 4), c(6, 5), c(6, 7), c(7, 1), c(7, 2), c(7, 3), c(7, 4), c(7, 5), c(7, 9), c(8, 1), c(8, 2), c(8, 3), c(8, 4), c(8, 5), c(8, 6), c(9, 1), c(9, 2), c(9, 3), c(9, 4), c(9, 5), c(9, 8))
+# P <- list(c(1, 2), c(1, 3), c(1, 4), c(1, 5), c(2, 3), c(2, 4), c(2, 6), c(3, 4), c(3, 7), c(5, 6), c(5, 7), c(5, 8), c(5, 9), c(5, 10), c(6, 7), c(6, 8), c(6, 9), c(6, 10), c(7, 8), c(7, 9), c(7, 10), c(8, 9), c(8, 10), c(9, 10), c(1, 6), c(1, 7), c(1, 8), c(1, 9), c(1, 10), c(2, 5), c(2, 7), c(2, 8), c(2, 9), c(2, 10), c(3, 5), c(3, 6), c(3, 8), c(3, 9), c(3, 10), c(4, 5), c(4, 6), c(4, 7), c(4, 8), c(4, 9), c(4, 10))
+# 
+# E <- list(c(1, 1), c(2, 2), c(3, 3), c(4, 4), c(3, 4), c(4, 2), c(2, 3), c(5, 5), c(4, 3), c(1, 2), c(6, 6), c(7, 7), c(8, 8), c(9, 9), c(7, 8), c(9, 6), c(6, 9), c(8, 7), c(8, 9), c(9, 7), c(1, 4), c(2, 1), c(6, 8), c(7, 6), c(1, 3), c(1, 5), c(1, 6), c(1, 7), c(1, 8), c(1, 9), c(2, 4), c(2, 5), c(2, 6), c(2, 7), c(2, 8), c(2, 9), c(3, 1), c(3, 2), c(3, 5), c(3, 6), c(3, 7), c(3, 8), c(3, 9), c(4, 1), c(4, 5), c(4, 6), c(4, 7), c(4, 8), c(4, 9), c(5, 1), c(5, 2), c(5, 3), c(5, 4), c(5, 6), c(5, 7), c(5, 8), c(5, 9), c(6, 1), c(6, 2), c(6, 3), c(6, 4), c(6, 5), c(6, 7), c(7, 1), c(7, 2), c(7, 3), c(7, 4), c(7, 5), c(7, 9), c(8, 1), c(8, 2), c(8, 3), c(8, 4), c(8, 5), c(8, 6), c(9, 1), c(9, 2), c(9, 3), c(9, 4), c(9, 5), c(9, 8))
 ```
 
 ```{r greedy3_init_alt, include=FALSE}
-# not_used_pairs <- function(R) {
-#   n <- max(R$row) + 1
-#   # find the pairs already used
-#   used_pairs <- R %>% select(first, second)
-#   # construct the set of pairs not used (namely all pairs minus used pairs)
-#   x <- combn(1:n, 2)
-# 
-#   all_pairs <- tibble(
-#     first = as.numeric(x[1,]),
-#     second = as.numeric(x[2,])
-#   )
-# 
-#   anti_join(all_pairs, used_pairs, by = c("first", "second")) %>%
-#     mutate(ffs = map2(first, second, c)) %>%
-#     pull(ffs)
-# }
-# 
-# P <- not_used_pairs(R)
-# 
-# E <- empty_cells(R)
+# this is needed simply because when I use graph
+# intersection i have to use the symbols 1..n
+# instead of 0..n-1 because igraph
+# doesn't like 0 for a vertex label
+# seems like i ought to rewrite intersect_G to handle
+# that case rather than rewrite this function
+# or generalise it
+not_used_pairs <- function(R) {
+  n <- max(R$row) + 1
+  # find the pairs already used
+  used_pairs <- R %>% select(first, second)
+  # construct the set of pairs not used (namely all pairs minus used pairs)
+  x <- combn(1:n, 2)
+
+  all_pairs <- tibble(
+    first = as.numeric(x[1,]),
+    second = as.numeric(x[2,])
+  )
+
+  anti_join(all_pairs, used_pairs, by = c("first", "second")) %>%
+    mutate(ffs = map2(first, second, c)) %>%
+    pull(ffs)
+}
 ```
 
 ```{r greedy3_alg}
 # log the available elements and pairs at each step
-X <- tribble(~i, ~j, ~available, ~Pe)
+X <- tribble(~i, ~j, ~available, ~Pe, ~fill)
 
 tic()
 # iterate through empty cells in given order
-for(e in E) {
-  
-  # these symbols are available
-  available <- R[R$row == e[1] & R$col == e[2], "avail"]$avail[[1]]
-  
-  # if there are fewer than 2 available symbols then move to the next empty cell
-  if(length(available) < 2) {
-    X <- X %>%
-      bind_rows(
-        tribble(  ~i,   ~j,      ~available, ~Pe, ~fill,
-                e[1], e[2], list(available),  NA, FALSE)
-      )
-    next()
-  }
-  
-  # this is an issue because it can change the ordering
-  # of pairs being visited. Why?
-  # a tiny optimisation is possible: if available is
-  # the whole set then we can just choose the first element of P
-  # because P is certain to be a subset of all pairs
-  # from available elements
-  Pe <- intersect_G(P, combn(available, 2, simplify = FALSE))
-  
-  # if there are none then move to the next empty cell
-  if(length(Pe) < 1) {
-      X <- X %>%
-        bind_rows(
-          tribble(  ~i,   ~j,     ~available, ~Pe, ~fill,
-                  e[1], e[2], list(available), NA, FALSE)
-        )
-    next()
-  }
-  
-  X <- X %>%
-    bind_rows(
-      tribble  (~i,   ~j, ~available, ~Pe, ~fill,
-              e[1], e[2],  available,  Pe,  TRUE)
-      )
-  
-  # X <- X %>%
-  #   bind_rows(
-  #     tribble(  ~i,   ~j, ~available, ~Pe, ~fill,
-  #             e[1], e[2],  available,  combn(available, 2, simplify = FALSE),  TRUE)
-  #     )
-  
-  # choose the first suitable pair
-  p <- Pe[[1]]
+R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
+  mutate(first = as.numeric(NA), second = as.numeric(NA)) %>%
+  mutate(avail = list(1:n))
 
-  # assign p to cell e,
-  R[R$row == e[1] & R$col == e[2], "first"] <- p[1]
-  R[R$row == e[1] & R$col == e[2], "second"] <- p[2]
+RX <- greedy3(R, X)
 
-  # remove cell e from the list of empty cells
-  E <- E[-match(list(e), E)]
-  # remove cell p from the list of pairs
-  P <- P[-match(list(p), P)]
+R <- RX[[1]]
+X <- RX[[2]]
 
-  # remove both elements of p from lists of available symbols in row e[1]
-  R[R$row == e[1], "avail"]$avail <- lapply(R[R$row == e[1], "avail"]$avail, remove_both, p)
-  # remove both elements of p from lists of available symbols in col e[2]
-  R[R$col == e[2], "avail"]$avail <- lapply(R[R$col == e[2], "avail"]$avail, remove_both, p)
-
-}
 toc()
 ```
 
@@ -233,7 +181,7 @@ X <- X %>%
 
 Plot the differences.
 
-```{r plot_X_d}
+```{r plot_X_d, eval=FALSE}
 ggplot(X, aes(x = 1:81, y = d)) +
   geom_col(width = 1, alpha = .5)
 ```
