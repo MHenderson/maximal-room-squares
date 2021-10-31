@@ -85,7 +85,7 @@ for(e in E) {
   
 }
 toc()
-#> 0.152 sec elapsed
+#> 0.156 sec elapsed
 ```
 
 ``` r
@@ -160,7 +160,7 @@ for(p in P) {
   
 }
 toc()
-#> 0.316 sec elapsed
+#> 0.298 sec elapsed
 ```
 
 ``` r
@@ -240,7 +240,13 @@ for(e in E) {
       tribble  (~i,   ~j, ~available, ~Pe, ~fill,
               e[1], e[2],  available,  Pe,  TRUE)
       )
-
+  
+  # X <- X %>%
+  #   bind_rows(
+  #     tribble(  ~i,   ~j, ~available, ~Pe, ~fill,
+  #             e[1], e[2],  available,  combn(available, 2, simplify = FALSE),  TRUE)
+  #     )
+  
   # choose the first suitable pair
   p <- Pe[[1]]
 
@@ -260,7 +266,7 @@ for(e in E) {
 
 }
 toc()
-#> 0.331 sec elapsed
+#> 0.354 sec elapsed
 ```
 
 ``` r
