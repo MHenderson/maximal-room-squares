@@ -61,19 +61,19 @@ inspired by
 
 ## I: greedy1
 
-```{r, child="greedy1.Rmd"}
+```{r, child="sections/greedy1.Rmd"}
 
 ```
 
 ## II: greedy2
 
-```{r, child="greedy2.Rmd"}
+```{r, child="sections/greedy2.Rmd"}
 
 ```
 
 ## III: Calculate available pairs
 
-```{r, child="greedy3.Rmd"}
+```{r, child="sections/greedy3.Rmd"}
 
 ```
 
