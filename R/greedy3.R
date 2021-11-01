@@ -17,8 +17,6 @@ greedy3 <- function(R, P = not_used_pairs(R), E = empty_cells(R)) {
       next()
     }
     
-    # this is an issue because it can change the ordering
-    # of pairs being visited. Why?
     # a tiny optimisation is possible: if available is
     # the whole set then we can just choose the first element of P
     # because P is certain to be a subset of all pairs
