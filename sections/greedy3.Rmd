@@ -87,7 +87,7 @@ ggplot(data = R %>% pivot_wider(), aes(col, row)) +
   )
 ```
 
-```{r}
+```{r greedy3_branch_colouring_plot, echo=FALSE, message=FALSE, fig.width=9, fig.height=9}
 ggplot(data = X %>% pivot_wider(), aes(col, row)) +
   geom_tile(aes(fill = branch)) +
   geom_segment(data = grid_lines(n-1, n-1), aes(x = x, y = y, xend = xend, yend = yend), size = .1) +

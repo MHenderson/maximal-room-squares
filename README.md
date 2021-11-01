@@ -31,7 +31,7 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(avail = list(0:(n - 1))) %>%
   greedy1()
 toc()
-#> 0.279 sec elapsed
+#> 0.223 sec elapsed
 ```
 
 ``` r
@@ -58,7 +58,7 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(avail = list(0:(n - 1))) %>%
   greedy2()
 toc()
-#> 0.335 sec elapsed
+#> 0.337 sec elapsed
 ```
 
 ``` r
@@ -103,7 +103,7 @@ R <- RX[[1]]
 X <- RX[[2]]
 
 toc()
-#> 0.426 sec elapsed
+#> 0.484 sec elapsed
 ```
 
 ``` r
@@ -114,21 +114,16 @@ is_maximal_proom(R)
 
 ![](figure/greedy3_plot-1.png)<!-- -->
 
-``` r
-ggplot(data = X %>% pivot_wider(), aes(col, row)) +
-  geom_tile(aes(fill = branch)) +
-  geom_segment(data = grid_lines(n-1, n-1), aes(x = x, y = y, xend = xend, yend = yend), size = .1) +
- # geom_text(data = X %>% pivot_wider() %>% filter(!is.na(first)), aes(label = paste(first, second, sep = ","))) +
-  scale_y_reverse() +
-  coord_fixed() + 
-  theme_void() +
-  theme(
-    legend.position = "bottom",
-    legend.title = element_blank()
-  )
-```
+![](figure/greedy3_branch_colouring_plot-1.png)<!-- -->
 
-![](figure/unnamed-chunk-5-1.png)<!-- -->
+This plot is a little bit harder to interpret than it first seems. The
+colour of a cell is determined by the constaints on that cell at the
+time it was visited by the algorithm. So cells that were encountered
+early during the algorithm run are likely to have even more constraints
+by the end. Look at cell (2, 4) for example. It’s blue because when that
+cell was first encountered the only available pairs had already been
+used. But now that the algorithm has finished it belongs to the category
+of cells for which there are fewer than 2 available symbols.
 
 Here is a plot of the sizes of the sets Ep as the algorithm runs.
 
