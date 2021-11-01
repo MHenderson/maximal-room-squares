@@ -32,12 +32,6 @@ greedy3 <- function(R, P = not_used_pairs(R), E = empty_cells(R)) {
       next()
     }
     
-    # X <- X %>%
-    #   bind_rows(
-    #     tribble(  ~i,   ~j, ~available, ~Pe, ~fill,
-    #             e[1], e[2],  available,  combn(available, 2, simplify = FALSE),  TRUE)
-    #     )
-    
     # choose the first suitable pair
     p <- Pe[[1]]
     
