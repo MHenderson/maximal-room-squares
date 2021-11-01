@@ -1,10 +1,8 @@
-greedy3 <- function(R) {
+greedy3 <- function(R, P = not_used_pairs(R), E = empty_cells(R)) {
   
-  P <- not_used_pairs(R)
   # log the available elements and pairs at each step
   X <- tribble(~row, ~col, ~available, ~Pe, ~first, ~second, ~fill, ~iter, ~branch)
   
-  E <- empty_cells(R)
   i <- 0
   
   for(e in E) {
