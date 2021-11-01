@@ -22,8 +22,6 @@ order and placing the least available pair that does not violate the
 conditions of being a partial Room square.
 
 ``` r
-library(tictoc)
-
 # the order of maximal partial Room square we are looking for
 n <- 10
 
@@ -33,7 +31,7 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(avail = list(0:(n - 1))) %>%
   greedy1()
 toc()
-#> 0.252 sec elapsed
+#> 0.279 sec elapsed
 ```
 
 ``` r
@@ -51,6 +49,8 @@ first and places the next pair in the first available cell that does not
 violate the conditions of being a partial Room square.
 
 ``` r
+n <- 10
+
 tic()
 # iterate through pairs in given order
 R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
@@ -58,7 +58,7 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(avail = list(0:(n - 1))) %>%
   greedy2()
 toc()
-#> 0.314 sec elapsed
+#> 0.335 sec elapsed
 ```
 
 ``` r
@@ -83,14 +83,13 @@ for example, we track the sets Pe as the algorithm runs so that
 afterwards we can inspect those sets.
 
 ``` r
-# P <- list(c(1, 2), c(1, 3), c(1, 4), c(1, 5), c(2, 3), c(2, 4), c(2, 6), c(3, 4), c(3, 7), c(5, 6), c(5, 7), c(5, 8), c(5, 9), c(5, 10), c(6, 7), c(6, 8), c(6, 9), c(6, 10), c(7, 8), c(7, 9), c(7, 10), c(8, 9), c(8, 10), c(9, 10), c(1, 6), c(1, 7), c(1, 8), c(1, 9), c(1, 10), c(2, 5), c(2, 7), c(2, 8), c(2, 9), c(2, 10), c(3, 5), c(3, 6), c(3, 8), c(3, 9), c(3, 10), c(4, 5), c(4, 6), c(4, 7), c(4, 8), c(4, 9), c(4, 10))
+P <- list(c(1, 2), c(1, 3), c(1, 4), c(1, 5), c(2, 3), c(2, 4), c(2, 6), c(3, 4), c(3, 7), c(5, 6), c(5, 7), c(5, 8), c(5, 9), c(5, 10), c(6, 7), c(6, 8), c(6, 9), c(6, 10), c(7, 8), c(7, 9), c(7, 10), c(8, 9), c(8, 10), c(9, 10), c(1, 6), c(1, 7), c(1, 8), c(1, 9), c(1, 10), c(2, 5), c(2, 7), c(2, 8), c(2, 9), c(2, 10), c(3, 5), c(3, 6), c(3, 8), c(3, 9), c(3, 10), c(4, 5), c(4, 6), c(4, 7), c(4, 8), c(4, 9), c(4, 10))
 # 
-# E <- list(c(1, 1), c(2, 2), c(3, 3), c(4, 4), c(3, 4), c(4, 2), c(2, 3), c(5, 5), c(4, 3), c(1, 2), c(6, 6), c(7, 7), c(8, 8), c(9, 9), c(7, 8), c(9, 6), c(6, 9), c(8, 7), c(8, 9), c(9, 7), c(1, 4), c(2, 1), c(6, 8), c(7, 6), c(1, 3), c(1, 5), c(1, 6), c(1, 7), c(1, 8), c(1, 9), c(2, 4), c(2, 5), c(2, 6), c(2, 7), c(2, 8), c(2, 9), c(3, 1), c(3, 2), c(3, 5), c(3, 6), c(3, 7), c(3, 8), c(3, 9), c(4, 1), c(4, 5), c(4, 6), c(4, 7), c(4, 8), c(4, 9), c(5, 1), c(5, 2), c(5, 3), c(5, 4), c(5, 6), c(5, 7), c(5, 8), c(5, 9), c(6, 1), c(6, 2), c(6, 3), c(6, 4), c(6, 5), c(6, 7), c(7, 1), c(7, 2), c(7, 3), c(7, 4), c(7, 5), c(7, 9), c(8, 1), c(8, 2), c(8, 3), c(8, 4), c(8, 5), c(8, 6), c(9, 1), c(9, 2), c(9, 3), c(9, 4), c(9, 5), c(9, 8))
+E <- list(c(1, 1), c(2, 2), c(3, 3), c(4, 4), c(3, 4), c(4, 2), c(2, 3), c(5, 5), c(4, 3), c(1, 2), c(6, 6), c(7, 7), c(8, 8), c(9, 9), c(7, 8), c(9, 6), c(6, 9), c(8, 7), c(8, 9), c(9, 7), c(1, 4), c(2, 1), c(6, 8), c(7, 6), c(1, 3), c(1, 5), c(1, 6), c(1, 7), c(1, 8), c(1, 9), c(2, 4), c(2, 5), c(2, 6), c(2, 7), c(2, 8), c(2, 9), c(3, 1), c(3, 2), c(3, 5), c(3, 6), c(3, 7), c(3, 8), c(3, 9), c(4, 1), c(4, 5), c(4, 6), c(4, 7), c(4, 8), c(4, 9), c(5, 1), c(5, 2), c(5, 3), c(5, 4), c(5, 6), c(5, 7), c(5, 8), c(5, 9), c(6, 1), c(6, 2), c(6, 3), c(6, 4), c(6, 5), c(6, 7), c(7, 1), c(7, 2), c(7, 3), c(7, 4), c(7, 5), c(7, 9), c(8, 1), c(8, 2), c(8, 3), c(8, 4), c(8, 5), c(8, 6), c(9, 1), c(9, 2), c(9, 3), c(9, 4), c(9, 5), c(9, 8))
 ```
 
 ``` r
-# log the available elements and pairs at each step
-X <- tribble(~i, ~j, ~available, ~Pe, ~fill)
+n <- 10
 
 tic()
 # iterate through empty cells in given order
@@ -98,13 +97,13 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(first = as.numeric(NA), second = as.numeric(NA)) %>%
   mutate(avail = list(1:n))
 
-RX <- greedy3(R, X)
+RX <- greedy3(R)
 
 R <- RX[[1]]
 X <- RX[[2]]
 
 toc()
-#> 0.416 sec elapsed
+#> 0.426 sec elapsed
 ```
 
 ``` r
@@ -114,6 +113,22 @@ is_maximal_proom(R)
 ```
 
 ![](figure/greedy3_plot-1.png)<!-- -->
+
+``` r
+ggplot(data = X %>% pivot_wider(), aes(col, row)) +
+  geom_tile(aes(fill = branch)) +
+  geom_segment(data = grid_lines(n-1, n-1), aes(x = x, y = y, xend = xend, yend = yend), size = .1) +
+ # geom_text(data = X %>% pivot_wider() %>% filter(!is.na(first)), aes(label = paste(first, second, sep = ","))) +
+  scale_y_reverse() +
+  coord_fixed() + 
+  theme_void() +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank()
+  )
+```
+
+![](figure/unnamed-chunk-5-1.png)<!-- -->
 
 Here is a plot of the sizes of the sets Ep as the algorithm runs.
 

@@ -9,6 +9,8 @@ cell that does not violate the conditions of being a partial
 Room square.
 
 ```{r greedy2_alg}
+n <- 10
+
 tic()
 # iterate through pairs in given order
 R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%

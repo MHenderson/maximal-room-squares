@@ -47,6 +47,10 @@ knitr::opts_chunk$set(
 )
 
 sapply(list.files("R", full.names = TRUE), source)
+
+library(ggplot2)
+library(glue)
+library(tictoc)
 ```
 
 # maximal-room-squares

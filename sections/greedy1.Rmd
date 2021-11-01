@@ -9,8 +9,6 @@ least available pair that does not violate
 the conditions of being a partial Room square.
 
 ```{r greedy1_alg}
-library(tictoc)
-
 # the order of maximal partial Room square we are looking for
 n <- 10
 
@@ -28,9 +26,6 @@ is_maximal_proom(R)
 ```
 
 ```{r greedy1_plot, echo=FALSE, message=FALSE, fig.width=9, fig.height=9}
-library(ggplot2)
-library(glue)
-
 nf <- n_filled_cells(R)
 v <- volume(R)
 
