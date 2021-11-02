@@ -22,7 +22,7 @@ remove_all_if_exist_G <- function(X, Y) {
     return(list())
   }
   if(length(Y) == 0) { # return X, surely?
-    return(Y)
+    return(X)
   }
   # unique symbols in Y that appear somewhere in X
   Ye <- intersect(Y, unique(unlist(X)))
