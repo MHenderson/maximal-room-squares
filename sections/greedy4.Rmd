@@ -12,7 +12,8 @@ tic()
 R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(first = as.numeric(NA), second = as.numeric(NA)) %>%
   mutate(avail = list(as.numeric(0:(n - 1)))) %>%
-  mutate(Pe = map(avail, combn, 2, simplify = FALSE))
+  mutate(Pe = map(avail, combn, 2, simplify = FALSE)) %>%
+  select(-avail)
 
 R <- greedy4(R)
 

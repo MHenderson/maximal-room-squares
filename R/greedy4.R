@@ -37,13 +37,6 @@ greedy4 <- function(R, E = empty_cells(R)) {
         Pe = map(Pe, remove_if_exists, p)
       )
     
-    # our implementation of is_maximal_proom currently depends upon the
-    # lists of available symbols being accurate
-    # remove both elements of p from lists of available symbols in row e[1]
-    R[R$row == e[1], "avail"]$avail <- lapply(R[R$row == e[1], "avail"]$avail, remove_both, p)
-    # remove both elements of p from lists of available symbols in col e[2]
-    R[R$col == e[2], "avail"]$avail <- lapply(R[R$col == e[2], "avail"]$avail, remove_both, p)
-    
   }
 
   return(R)
