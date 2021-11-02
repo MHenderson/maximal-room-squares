@@ -21,16 +21,13 @@ greedy4 <- function(R, E = empty_cells(R)) {
     # remove cell e from the list of empty cells
     E <- E[-match(list(e), E)]
     
-    # remove every pair containing elements of p from cells
-    # in the same row or column as e
-    R <- R %>%
-      mutate(
-        Pe = case_when(
-          row == e[1] | col == e[2] ~ map(Pe, remove_all_if_exist_G, p),
-          TRUE ~ Pe
-        )
-      )
-   
+    # the available pairs in the same row or column as e 
+    R_e <- R[R$row == e[1] | R$col == e[2], "Pe"]
+    
+    # remove every pair containing either element of p from all lists
+    # of available pairs in the same row or column as e
+    R[R$row == e[1] | R$col == e[2], "Pe"] <- list(map(R_e$Pe, remove_all_if_exist_G, p))
+    
     # remove p from the list of available pairs for every remaining cell
     R <- R %>%
       mutate(
