@@ -1,7 +1,7 @@
 remove_if_exists <- function(P, p) {
   x <- match(list(p), P)
   if(!is.na(x)) {
-    P <- P[-match(list(p), P)]
+    P <- P[-x]
   }
   return(P)
 }
