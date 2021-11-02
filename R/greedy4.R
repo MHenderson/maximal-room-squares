@@ -26,7 +26,7 @@ greedy4 <- function(R, E = empty_cells(R)) {
     
     # remove every pair containing either element of p from all lists
     # of available pairs in the same row or column as e
-    R[R$row == e[1] | R$col == e[2], "Pe"] <- list(map(R_e$Pe, remove_all_if_exist_G, p))
+    R[R$row == e[1] | R$col == e[2], "Pe"] <- list(lapply(R_e$Pe, remove_all_if_exist_G, p))
     
     # remove p from the list of available pairs for every remaining cell
     R <- R %>%
