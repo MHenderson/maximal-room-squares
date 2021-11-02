@@ -4,41 +4,14 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r}
-# this is needed simply because when I use graph
-# intersection i have to use the symbols 1..n
-# instead of 0..n-1 because igraph
-# doesn't like 0 for a vertex label
-# seems like i ought to rewrite intersect_G to handle
-# that case rather than rewrite this function
-# or generalise it
-not_used_pairs <- function(R) {
-  n <- max(R$row) + 1
-  # find the pairs already used
-  used_pairs <- R %>% select(first, second)
-  # construct the set of pairs not used (namely all pairs minus used pairs)
-  x <- combn(1:n, 2)
-  
-  all_pairs <- tibble(
-    first = as.numeric(x[1,]),
-    second = as.numeric(x[2,])
-  )
-  
-  anti_join(all_pairs, used_pairs, by = c("first", "second")) %>%
-    mutate(ffs = map2(first, second, c)) %>%
-    pull(ffs)
-}
-```
-
-
-```{r greedy3_alg}
+```{r greedy4_alg}
 n <- 10
 
 tic()
 # iterate through empty cells in given order
 R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(first = as.numeric(NA), second = as.numeric(NA)) %>%
-  mutate(avail = list(as.numeric(1:n))) %>%
+  mutate(avail = list(as.numeric(0:(n - 1)))) %>%
   mutate(Pe = map(avail, combn, 2, simplify = FALSE))
 
 R <- greedy4(R)
@@ -46,12 +19,12 @@ R <- greedy4(R)
 toc()
 ```
 
-```{r greedy3_is_maximal_room}
+```{r greedy4_is_maximal_room}
 # is R a maximal partial Room square?
 is_maximal_proom(R)
 ```
 
-```{r greedy3_plot, echo=FALSE, message=FALSE, fig.width=9, fig.height=9}
+```{r greedy4_plot, echo=FALSE, message=FALSE, fig.width=9, fig.height=9}
 nf <- n_filled_cells(R)
 v <- volume(R)
 
