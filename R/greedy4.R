@@ -1,5 +1,5 @@
 # this works by tracking available pairs
-greedy4 <- function(R, P = not_used_pairs(R), E = empty_cells(R)) {
+greedy4 <- function(R, E = empty_cells(R)) {
 
   for(e in E) {
     
@@ -20,32 +20,15 @@ greedy4 <- function(R, P = not_used_pairs(R), E = empty_cells(R)) {
     
     # remove cell e from the list of empty cells
     E <- E[-match(list(e), E)]
-    # remove cell p from the list of pairs
-    P <- P[-match(list(p), P)]
     
+    # remove every pair containing elements of p from cells
+    # in the same row or column as e
     R <- R %>%
       mutate(
-        # these are the pairs in Pe containing p1
-        Pe_p1 = map(Pe, pairs_containing, p[1]),
-        # these are hte pairs in Pe containing p2
-        Pe_p2 = map(Pe, pairs_containing, p[2])
-      ) %>%
-      mutate(
-        # remove every pair containing p1 from cells in the same row or column as e
         Pe = case_when(
-          row == e[1] | col == e[2] ~ map2(Pe, Pe_p1, remove_all_if_exist),
+          row == e[1] | col == e[2] ~ map(Pe, remove_all_if_exist_G, p),
           TRUE ~ Pe
         )
-      ) %>%
-      mutate(
-        # remove every pair containing p2 from cells in the same row or column as e
-        Pe = case_when(
-          row == e[1] | col == e[2] ~ map2(Pe, Pe_p2, remove_all_if_exist),
-          TRUE ~ Pe
-        )
-      ) %>%
-      select(
-        -Pe_p1, -Pe_p2
       )
    
     # remove p from the list of available pairs for every remaining cell
@@ -62,5 +45,6 @@ greedy4 <- function(R, P = not_used_pairs(R), E = empty_cells(R)) {
     R[R$col == e[2], "avail"]$avail <- lapply(R[R$col == e[2], "avail"]$avail, remove_both, p)
     
   }
+
   return(R)
 }
