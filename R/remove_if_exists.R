@@ -21,7 +21,7 @@ remove_all_if_exist_G <- function(X, Y) {
   if(length(X) == 0) {
     return(list())
   }
-  if(length(Y) == 0) {
+  if(length(Y) == 0) { # return X, surely?
     return(Y)
   }
   # unique symbols in Y that appear somewhere in X
@@ -33,6 +33,7 @@ remove_all_if_exist_G <- function(X, Y) {
     return(list())
   } else {
     G1_num <- matrix(as.numeric(igraph::as_edgelist(G1)), ncol = 2)
-    return(unlist(apply(G1_num, 1, list), recursive = FALSE)) 
+    x <- unlist(apply(G1_num, 1, list), recursive = FALSE)
+    return(map(x, sort)) 
   }
 }
