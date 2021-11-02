@@ -34,6 +34,6 @@ remove_all_if_exist_G <- function(X, Y) {
   } else {
     G1_num <- matrix(as.numeric(igraph::as_edgelist(G1)), ncol = 2)
     x <- unlist(apply(G1_num, 1, list), recursive = FALSE)
-    return(map(x, sort)) 
+    return(purrr::map(x, sort)) 
   }
 }
