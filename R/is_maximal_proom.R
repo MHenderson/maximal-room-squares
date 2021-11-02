@@ -2,6 +2,14 @@ is_maximal_proom <- function(R) {
  
   result <- is_partial_room(R)
   
+  R <- R %>%
+    mutate(
+      see = map2(row, col, see2, R = R)
+    ) %>%
+    mutate(
+      avail = map(see, setdiff, x = 0:9)
+    )
+  
   # iterate through the set of unusued pairs trying to place them
   # return true if and only if no pairs can be placed
   for(p in not_used_pairs(R)) {
