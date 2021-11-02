@@ -4,17 +4,26 @@ editor_options:
   chunk_output_type: console
 ---
 
+In this section we keep track at every step of which pairs are
+available for which empty cells. This means that every time a
+new cell is filled we update all of the cells in the same
+row or same column by removing any pairs that share an element
+in common with the most recently assigned pair. We also update
+every remaining cell by removing the pair that was most recently
+assigned.
+
+This is the slowest approach but possibly the most interesting.
+Can we learn anything by looking at those lists of available
+pairs as the algorithm runs?
+
 ```{r greedy4_alg}
 n <- 10
 
 tic()
-# iterate through empty cells in given order
 R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(first = as.numeric(NA), second = as.numeric(NA)) %>%
-  mutate(Pe = list(combn(as.numeric(0:(n - 1)), 2, simplify = FALSE)))
-
-R <- greedy4(R)
-
+  mutate(Pe = list(combn(as.numeric(0:(n - 1)), 2, simplify = FALSE))) %>%
+  greedy4()
 toc()
 ```
 
