@@ -29,10 +29,7 @@ greedy4 <- function(R, E = empty_cells(R)) {
     R[R$row == e[1] | R$col == e[2], "Pe"] <- list(lapply(R_e$Pe, remove_all_if_exist_G, p))
     
     # remove p from the list of available pairs for every remaining cell
-    R <- R %>%
-      mutate(
-        Pe = map(Pe, remove_if_exists, p)
-      )
+    R[, "Pe"] <- list(lapply(R$Pe, remove_if_exists, p))
     
   }
 
