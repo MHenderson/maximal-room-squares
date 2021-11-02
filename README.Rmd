@@ -53,15 +53,12 @@ library(glue)
 library(tictoc)
 ```
 
-# maximal-room-squares
-
-<!-- badges: start -->
-<!-- badges: end -->
-
-Below we implement two greedy procedures for
-building maximal partial Room squares,
+Four different greedy procedures
+for building maximal partial Room squares,
 inspired by
 @meszkaMaximalPartialRoom2021
+
+# Generating Maximal Partial Room Squares in R
 
 ## I: greedy1
 
@@ -75,9 +72,15 @@ inspired by
 
 ```
 
-## III: Calculate available pairs
+## III: greedy3: Calculate available pairs
 
 ```{r, child="sections/greedy3.Rmd"}
+
+```
+
+## IV: greedy4: Track available pairs
+
+```{r, child="sections/greedy4.Rmd"}
 
 ```
 
