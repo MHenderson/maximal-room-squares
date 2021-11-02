@@ -1,3 +1,7 @@
+# P is a list of pairs
+# p is a pair
+# returns P if p not in P and P - p if p in P
+# a bit like the set operation P \ p
 remove_if_exists <- function(P, p) {
   x <- match(list(p), P)
   if(!is.na(x)) {
@@ -8,6 +12,7 @@ remove_if_exists <- function(P, p) {
 
 # P is a list of pairs
 # Q is a list of pairs
+# removes every pair of Q from P (if P contains that pair)
 remove_all_if_exist <- function(P, Q) {
   for(q in Q) {
     P <- remove_if_exists(P, q)
@@ -17,6 +22,7 @@ remove_all_if_exist <- function(P, Q) {
 
 # X is a list of pairs
 # Y is a list of symbols
+# removes every pair from X that has a non-empty intersection with Y
 remove_all_if_exist_G <- function(X, Y) {
   if(length(X) == 0) {
     return(list())
@@ -34,6 +40,8 @@ remove_all_if_exist_G <- function(X, Y) {
   } else {
     G1_num <- matrix(as.numeric(igraph::as_edgelist(G1)), ncol = 2)
     x <- unlist(apply(G1_num, 1, list), recursive = FALSE)
-    return(purrr::map(x, sort)) 
+    # it's a shame that this sort is required because it takes a lot
+    # of time
+    return(lapply(x, sort)) 
   }
 }
