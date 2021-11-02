@@ -7,7 +7,7 @@ remove_if_exists <- function(P, p) {
 }
 
 # P is a list of pairs
-# Q is a list of symobls
+# Q is a list of pairs
 remove_all_if_exist <- function(P, Q) {
   for(q in Q) {
     P <- remove_if_exists(P, q)
@@ -15,14 +15,24 @@ remove_all_if_exist <- function(P, Q) {
   return(P)
 }
 
+# X is a list of pairs
+# Y is a list of symbols
 remove_all_if_exist_G <- function(X, Y) {
-  G1 <- igraph::graph_from_edgelist(X, directed = FALSE)
-  G1 <- igraph::delete_vertices(G1, Y)
-  igraph::as_edgelist(G1)
+  if(length(X) == 0) {
+    return(list())
+  }
+  if(length(Y) == 0) {
+    return(Y)
+  }
+  # unique symbols in Y that appear somewhere in X
+  Ye <- intersect(Y, unique(unlist(X)))
+  X_chr <- t(matrix(as.character(as.numeric(unlist(X))), ncol = length(X)))
+  G1 <- igraph::graph_from_edgelist(X_chr, directed = FALSE)
+  G1 <- igraph::delete_vertices(G1, as.character(Ye))
+  if(igraph::gsize(G1) == 0) {
+    return(list())
+  } else {
+    G1_num <- matrix(as.numeric(igraph::as_edgelist(G1)), ncol = 2)
+    return(unlist(apply(G1_num, 1, list), recursive = FALSE)) 
+  }
 }
-
-# this works
-# remove_all_if_exist_G(t(mapply(c, R$Pe[[1]])), c(2, 3, 4))
-
-# alas
-# remove_all_if_exist_G(t(mapply(c, R$Pe[[1]])), c(2, 3, 4, 11))
