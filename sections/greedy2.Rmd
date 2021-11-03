@@ -3,9 +3,15 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
-In this section we consider a greedy procedure that considers
-the pairs first and places the next pair in the first available
-cell that does not violate the conditions of being a partial
+
+`greedy2`
+is also described in
+(@meszkaMaximalPartialRoom2021).
+
+`greedy2`
+iterates through all pairs in order
+placing the next pair in the first available cell
+not violating the conditions of being a partial
 Room square.
 
 ```{r greedy2_alg}

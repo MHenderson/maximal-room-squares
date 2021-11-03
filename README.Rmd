@@ -1,6 +1,10 @@
 ---
+title: Generating Maximal Partial Room Squares in R
+author: Matthew Henderson
 output:
   github_document:
+    toc: yes
+  html_document:
     toc: yes
 editor_options: 
   chunk_output_type: console
@@ -54,11 +58,18 @@ library(tictoc)
 ```
 
 Four different greedy procedures
-for building maximal partial Room squares,
+for building maximal partial Room squares
+in R
 inspired by
-@meszkaMaximalPartialRoom2021
+@meszkaMaximalPartialRoom2021.
 
-# Generating Maximal Partial Room Squares in R
+# Notation
+
+```{r notation, child="sections/notation.Rmd"}
+
+```
+
+# Algorithms
 
 ## I: greedy1
 

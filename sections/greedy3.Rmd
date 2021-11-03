@@ -4,16 +4,38 @@ editor_options:
   chunk_output_type: console
 ---
 
-In this section we process cells in order but when we are considering
-which pairs to place in the current cell we only consider those
-pairs that are available for the current cell. We calculate the available
-pairs as the intersection Pe of P (the set of all pairs so for not used)
-and A (the set of combinations of size 2 from elements not already
-used either in the current column or the current row).
+`greedy3`
+is a modification of
+`greedy1`.
 
-One benefit of this approach is that we can study the sets Pe.
-Below, for example, we track the sets Pe as the algorithm runs
-so that afterwards we can inspect those sets.
+`greedy3`
+visits
+all cells in order placing into the next cell
+the first pair
+$p = \{x, y\}$
+in
+$M(R_t) \cap S \backslash {S(e, R_t) \choose 2}$.
+In other words the
+first pair that is compatible
+with the empty cell
+which hasn't already been used
+in
+$R_t$
+
+After filling an empty cell the global set of available
+pairs is updated:
+$U(R_{t + 1}) \leftarrow U(R_t)\backslash p$
+
+As are the sets of symbols
+not seen by empty cells
+$e\prime$
+lying in the same row
+or column
+as $e$:
+$S\backslash S(e\prime, R_{t + 1}) \leftarrow S(e, R) \backslash {x}$
+and
+$S\backslash S(e\prime, R_{t + 1}) \leftarrow S(e, R) \backslash {y}$.
+
 
 ```{r greedy3_init_alt, include=FALSE}
 # this is needed simply because when I use graph

@@ -3,10 +3,16 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
-In this section the greedy procedure involves
-visiting all cells in order and placing the
-least available pair that does not violate
-the conditions of being a partial Room square.
+
+`greedy1`
+is described in
+@meszkaMaximalPartialRoom2021.
+
+`greedy1`
+visits all cells in order placing
+into the next cell the first available
+pair not violating the conditions
+of being a partial Room square.
 
 ```{r greedy1_alg}
 # the order of maximal partial Room square we are looking for

@@ -4,17 +4,36 @@ editor_options:
   chunk_output_type: console
 ---
 
-In this section we keep track at every step of which pairs are
-available for which empty cells. This means that every time a
-new cell is filled we update all of the cells in the same
-row or same column by removing any pairs that share an element
-in common with the most recently assigned pair. We also update
-every remaining cell by removing the pair that was most recently
-assigned.
+`greedy4`
+is a modification of
+`greedy3`.
 
-This is the slowest approach but possibly the most interesting.
-Can we learn anything by looking at those lists of available
-pairs as the algorithm runs?
+`greedy4`
+visits cells in order
+placing into the next cell
+the first available cell from
+$M(R_t) \cap S \backslash {S(e, R_t) \choose 2}$.
+
+The difference is that instead
+of calculating
+$T(R_t, e) := M(R_t) \cap S \backslash {S(e, R_t) \choose 2}$
+at each step
+we keep track of it
+as cells are filled.
+
+This means initialising
+$T(R_t, e) \leftarrow {S \choose 2}$
+at the beginning
+and then after filling an empty cell
+$e$
+with
+$p = \{x, y\}$:
+
+  * removing every pair $p\prime$ containing either $x$ or $y$ from
+  all lists of available pairs $e\prime$ in the same row or column as $e$:
+  $T(R_{t + 1}, e\prime) \leftarrow T(R_t, e\prime)\backslash p\prime$
+  * removing $p$ from the list of available pairs for every
+  other empty cell $e\prime$: $T(R_{t + 1}, e\prime) \leftarrow T(R_t, e\prime)\backslash p$
 
 ```{r greedy4_alg}
 n <- 10

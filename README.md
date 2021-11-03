@@ -1,6 +1,9 @@
+Generating Maximal Partial Room Squares in R
+================
+Matthew Henderson
 
--   [Generating Maximal Partial Room Squares in
-    R](#generating-maximal-partial-room-squares-in-r)
+-   [Notation](#notation)
+-   [Algorithms](#algorithms)
     -   [I: greedy1](#i-greedy1)
     -   [II: greedy2](#ii-greedy2)
     -   [III: greedy3: Calculate available
@@ -12,15 +15,42 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 Four different greedy procedures for building maximal partial Room
-squares, inspired by Meszka and Rosa (2021)
+squares in R inspired by Meszka and Rosa (2021).
 
-# Generating Maximal Partial Room Squares in R
+# Notation
+
+Let *n* denote the order of the partial Room square. Let
+*S* = {0, …, *n* − 1}. Let $P = {S \\choose 2}$.
+
+Let *U*(*R*) denote the subset of *P* used in *R*. Let
+*M*(*R*) = *P* ∖ *U*(*R*) denote the subset of *P* missing from *R*.
+
+If *e* is an empty cell in a partial Room square *R* then by
+*S*(*e*, *R*) we denote the subset of *S* *seen* by *e*. A symbol is
+seen by an empty cell *e* if it appears in the same row or column as
+*e*.
+
+For now we’ll just live without special notation for
+*S* ∖ *S*(*e*, *R*): the subset of symbols not seen by *e*.
+
+We also talk about the subset $S \\backslash S(e, R) \\choose 2$: the
+subset of all pairs that can be made from symbols not seen by *e*.
+
+Notice that it is possible for $S \\backslash S(e, R) \\choose 2$ to
+have non-empty intersections with both *U*(*R*) and *M*(*R*). In other
+words those pairs that are available for an empty cell when considering
+only the symbols in the same row or column may or may not already appear
+somewhere in R.
+
+# Algorithms
 
 ## I: greedy1
 
-In this section the greedy procedure involves visiting all cells in
-order and placing the least available pair that does not violate the
-conditions of being a partial Room square.
+`greedy1` is described in Meszka and Rosa (2021).
+
+`greedy1` visits all cells in order placing into the next cell the first
+available pair not violating the conditions of being a partial Room
+square.
 
 ``` r
 # the order of maximal partial Room square we are looking for
@@ -32,7 +62,7 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(avail = list(0:(n - 1))) %>%
   greedy1()
 toc()
-#> 0.355 sec elapsed
+#> 0.229 sec elapsed
 ```
 
 ``` r
@@ -45,9 +75,11 @@ is_maximal_proom(R)
 
 ## II: greedy2
 
-In this section we consider a greedy procedure that considers the pairs
-first and places the next pair in the first available cell that does not
-violate the conditions of being a partial Room square.
+`greedy2` is also described in (Meszka and Rosa (2021)).
+
+`greedy2` iterates through all pairs in order placing the next pair in
+the first available cell not violating the conditions of being a partial
+Room square.
 
 ``` r
 n <- 10
@@ -59,7 +91,7 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(avail = list(0:(n - 1))) %>%
   greedy2()
 toc()
-#> 0.441 sec elapsed
+#> 0.438 sec elapsed
 ```
 
 ``` r
@@ -72,16 +104,21 @@ is_maximal_proom(R)
 
 ## III: greedy3: Calculate available pairs
 
-In this section we process cells in order but when we are considering
-which pairs to place in the current cell we only consider those pairs
-that are available for the current cell. We calculate the available
-pairs as the intersection Pe of P (the set of all pairs so for not used)
-and A (the set of combinations of size 2 from elements not already used
-either in the current column or the current row).
+`greedy3` is a modification of `greedy1`.
 
-One benefit of this approach is that we can study the sets Pe. Below,
-for example, we track the sets Pe as the algorithm runs so that
-afterwards we can inspect those sets.
+`greedy3` visits all cells in order placing into the next cell the first
+pair *p* = {*x*, *y*} in
+$M(R\_t) \\cap S \\backslash {S(e, R\_t) \\choose 2}$. In other words
+the first pair that is compatible with the empty cell which hasn’t
+already been used in *R*<sub>*t*</sub>
+
+After filling an empty cell the global set of available pairs is
+updated: *U*(*R*<sub>*t* + 1</sub>) ← *U*(*R*<sub>*t*</sub>) ∖ *p*
+
+As are the sets of symbols not seen by empty cells *e*′ lying in the
+same row or column as *e*:
+*S* ∖ *S*(*e*′, *R*<sub>*t* + 1</sub>) ← *S*(*e*, *R*) ∖ *x* and
+*S* ∖ *S*(*e*′, *R*<sub>*t* + 1</sub>) ← *S*(*e*, *R*) ∖ *y*.
 
 ``` r
 n <- 10
@@ -92,7 +129,7 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(avail = list(1:n)) %>%
   greedy3()
 toc()
-#> 0.285 sec elapsed
+#> 0.302 sec elapsed
 ```
 
 ``` r
@@ -105,16 +142,26 @@ is_maximal_proom(R)
 
 ## IV: greedy4: Track available pairs
 
-In this section we keep track at every step of which pairs are available
-for which empty cells. This means that every time a new cell is filled
-we update all of the cells in the same row or same column by removing
-any pairs that share an element in common with the most recently
-assigned pair. We also update every remaining cell by removing the pair
-that was most recently assigned.
+`greedy4` is a modification of `greedy3`.
 
-This is the slowest approach but possibly the most interesting. Can we
-learn anything by looking at those lists of available pairs as the
-algorithm runs?
+`greedy4` visits cells in order placing into the next cell the first
+available cell from
+$M(R\_t) \\cap S \\backslash {S(e, R\_t) \\choose 2}$.
+
+The difference is that instead of calculating
+$T(R\_t, e) := M(R\_t) \\cap S \\backslash {S(e, R\_t) \\choose 2}$ at
+each step we keep track of it as cells are filled.
+
+This means initialising $T(R\_t, e) \\leftarrow {S \\choose 2}$ at the
+beginning and then after filling an empty cell *e* with
+*p* = {*x*, *y*}:
+
+-   removing every pair *p*′ containing either *x* or *y* from all lists
+    of available pairs *e*′ in the same row or column as *e*:
+    *T*(*R*<sub>*t* + 1</sub>, *e*′) ← *T*(*R*<sub>*t*</sub>, *e*′) ∖ *p*′
+-   removing *p* from the list of available pairs for every other empty
+    cell *e*′:
+    *T*(*R*<sub>*t* + 1</sub>, *e*′) ← *T*(*R*<sub>*t*</sub>, *e*′) ∖ *p*
 
 ``` r
 n <- 10
@@ -125,7 +172,7 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(Pe = list(combn(as.numeric(0:(n - 1)), 2, simplify = FALSE))) %>%
   greedy4()
 toc()
-#> 0.942 sec elapsed
+#> 0.949 sec elapsed
 ```
 
 ``` r
