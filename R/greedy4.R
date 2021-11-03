@@ -1,7 +1,11 @@
 # this works by tracking available pairs
 greedy4 <- function(R, E = empty_cells(R)) {
 
+  i <- 0
+  
   for(e in E) {
+
+    readr::write_rds(R %>% mutate(t = i), file = paste0("log/R", i, ".rds"))
     
     # these pairs are available
     Pe <- R[R$row == e[1] & R$col == e[2], "Pe"]$Pe[[1]]
@@ -30,6 +34,8 @@ greedy4 <- function(R, E = empty_cells(R)) {
     
     # remove p from the list of available pairs for every remaining cell
     R[, "Pe"] <- list(lapply(R$Pe, remove_if_exists, p))
+    
+    i <- i + 1
     
   }
 
