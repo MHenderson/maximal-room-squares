@@ -32,7 +32,7 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(avail = list(0:(n - 1))) %>%
   greedy1()
 toc()
-#> 0.256 sec elapsed
+#> 0.355 sec elapsed
 ```
 
 ``` r
@@ -59,7 +59,7 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(avail = list(0:(n - 1))) %>%
   greedy2()
 toc()
-#> 0.403 sec elapsed
+#> 0.441 sec elapsed
 ```
 
 ``` r
@@ -87,15 +87,12 @@ afterwards we can inspect those sets.
 n <- 10
 
 tic()
-RX <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
+R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(first = as.numeric(NA), second = as.numeric(NA)) %>%
   mutate(avail = list(1:n)) %>%
   greedy3()
 toc()
-#> 0.535 sec elapsed
-
-R <- RX[[1]]
-X <- RX[[2]]
+#> 0.285 sec elapsed
 ```
 
 ``` r
@@ -128,7 +125,7 @@ R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(Pe = list(combn(as.numeric(0:(n - 1)), 2, simplify = FALSE))) %>%
   greedy4()
 toc()
-#> 0.91 sec elapsed
+#> 0.942 sec elapsed
 ```
 
 ``` r

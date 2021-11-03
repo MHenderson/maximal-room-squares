@@ -45,14 +45,11 @@ not_used_pairs <- function(R) {
 n <- 10
 
 tic()
-RX <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
+R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(first = as.numeric(NA), second = as.numeric(NA)) %>%
   mutate(avail = list(1:n)) %>%
   greedy3()
 toc()
-
-R <- RX[[1]]
-X <- RX[[2]]
 ```
 
 ```{r greedy3_is_maximal_room}
