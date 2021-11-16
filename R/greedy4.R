@@ -3,9 +3,11 @@ greedy4 <- function(R, E = empty_cells(R)) {
 
   i <- 0
   
+  log_df <- tibble()
+  
   for(e in E) {
 
-    readr::write_rds(R %>% mutate(t = i), file = paste0("log/R", i, ".rds"))
+    log_df <- bind_rows(log_df, R %>% mutate(t = i))
     
     # these pairs are available
     Pe <- R[R$row == e[1] & R$col == e[2], "Pe"]$Pe[[1]]
@@ -38,6 +40,8 @@ greedy4 <- function(R, E = empty_cells(R)) {
     i <- i + 1
     
   }
+  
+  readr::write_rds(log_df, file = "log/log_df.rds")
 
   return(R)
 }
