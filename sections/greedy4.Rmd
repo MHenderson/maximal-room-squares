@@ -36,13 +36,15 @@ $p = \{x, y\}$:
   other empty cell $e\prime$: $T(R_{t + 1}, e\prime) \leftarrow T(R_t, e\prime)\backslash p$
 
 ```{r greedy4_alg}
-n <- 10
+# n is actually not a good choice because there is a function in dplyr called n
+n <- 14
 
 tic()
 R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
   mutate(first = as.numeric(NA), second = as.numeric(NA)) %>%
-  mutate(Pe = list(combn(as.numeric(0:(n - 1)), 2, simplify = FALSE))) %>%
-  greedy4()
+  mutate(Pe = list(combn(as.numeric(0:(n - 1)), 2, simplify = FALSE)))
+
+R <- greedy4(R, sample(empty_cells(R), length(empty_cells(R))))
 toc()
 ```
 
