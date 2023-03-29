@@ -19,27 +19,24 @@ squares in R inspired by Meszka and Rosa (2021).
 
 # Notation
 
-Let *n* denote the order of the partial Room square. Let
-*S* = {0, …, *n* − 1}. Let $P = {S \\choose 2}$.
+Let $n$ denote the order of the partial Room square. Let
+$S = \{0, \ldots, n - 1\}$. Let $P = {S \choose 2}$.
 
-Let *U*(*R*) denote the subset of *P* used in *R*. Let
-*M*(*R*) = *P* ∖ *U*(*R*) denote the subset of *P* missing from *R*.
+Let $U(R)$ denote the subset of $P$ used in $R$. Let
+$M(R) = P \backslash U(R)$ denote the subset of $P$ missing from $R$.
 
-If *e* is an empty cell in a partial Room square *R* then by
-*S*(*e*, *R*) we denote the subset of *S* *seen* by *e*. A symbol is
-seen by an empty cell *e* if it appears in the same row or column as
-*e*.
+If $e$ is an empty cell in a partial Room square $R$ then by $S(e, R)$
+we denote the subset of $S$ *seen* by $e$. A symbol is seen by an empty
+cell $e$ if it appears in the same row or column as $e$.
 
-For now we’ll just live without special notation for
-*S* ∖ *S*(*e*, *R*): the subset of symbols not seen by *e*.
+So $S \backslash S(e, R)$ is the subset of symbols not seen by $e$ and
+$S \backslash S(e, R) \choose 2$ is the subset of all pairs made from
+symbols not seen by $e$.
 
-We also talk about the subset $S \\backslash S(e, R) \\choose 2$: the
-subset of all pairs that can be made from symbols not seen by *e*.
-
-Notice that it is possible for $S \\backslash S(e, R) \\choose 2$ to
-have non-empty intersections with both *U*(*R*) and *M*(*R*). In other
-words those pairs that are available for an empty cell when considering
-only the symbols in the same row or column may or may not already appear
+Notice that it is possible for $S \backslash S(e, R) \choose 2$ to have
+non-empty intersections with both $U(R)$ and $M(R)$. In other words
+those pairs that are available for an empty cell when considering only
+the symbols in the same row or column may or may not already appear
 somewhere in R.
 
 # Algorithms
@@ -53,16 +50,12 @@ available pair not violating the conditions of being a partial Room
 square.
 
 ``` r
-# the order of maximal partial Room square we are looking for
 n <- 10
 
 tic()
-R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
-  mutate(first = as.integer(NA), second = as.integer(NA)) %>%
-  mutate(avail = list(0:(n - 1))) %>%
-  greedy1()
+R <- greedy1(n)
 toc()
-#> 0.229 sec elapsed
+#> 0.192 sec elapsed
 ```
 
 ``` r
@@ -85,13 +78,9 @@ Room square.
 n <- 10
 
 tic()
-# iterate through pairs in given order
-R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
-  mutate(first = as.integer(NA), second = as.integer(NA)) %>%
-  mutate(avail = list(0:(n - 1))) %>%
-  greedy2()
+R <- greedy2(n)
 toc()
-#> 0.438 sec elapsed
+#> 0.307 sec elapsed
 ```
 
 ``` r
@@ -107,35 +96,32 @@ is_maximal_proom(R)
 `greedy3` is a modification of `greedy1`.
 
 `greedy3` visits all cells in order placing into the next cell the first
-pair *p* = {*x*, *y*} in
-$M(R\_t) \\cap S \\backslash {S(e, R\_t) \\choose 2}$. In other words
-the first pair that is compatible with the empty cell which hasn’t
-already been used in *R*<sub>*t*</sub>
+pair $p = \{x, y\}$ in $M(R_t) \cap S \backslash {S(e, R_t) \choose 2}$.
+In other words the first pair that is compatible with the empty cell
+which hasn’t already been used in $R_t$
 
 After filling an empty cell the global set of available pairs is
-updated: *U*(*R*<sub>*t* + 1</sub>) ← *U*(*R*<sub>*t*</sub>) ∖ *p*
+updated: $U(R_{t + 1}) \leftarrow U(R_t)\backslash p$
 
-As are the sets of symbols not seen by empty cells *e*′ lying in the
-same row or column as *e*:
-*S* ∖ *S*(*e*′, *R*<sub>*t* + 1</sub>) ← *S*(*e*, *R*) ∖ *x* and
-*S* ∖ *S*(*e*′, *R*<sub>*t* + 1</sub>) ← *S*(*e*, *R*) ∖ *y*.
+As are the sets of symbols not seen by empty cells $e\prime$ lying in
+the same row or column as $e$:
+$S\backslash S(e\prime, R_{t + 1}) \leftarrow S(e, R) \backslash {x}$
+and
+$S\backslash S(e\prime, R_{t + 1}) \leftarrow S(e, R) \backslash {y}$.
 
 ``` r
 n <- 10
 
 tic()
-R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
-  mutate(first = as.numeric(NA), second = as.numeric(NA)) %>%
-  mutate(avail = list(1:n)) %>%
-  greedy3()
+R <- greedy3(n)
 toc()
-#> 0.302 sec elapsed
+#> 0.263 sec elapsed
 ```
 
 ``` r
 # is R a maximal partial Room square?
 is_maximal_proom(R)
-#> [1] TRUE
+#> [1] FALSE
 ```
 
 ![](figure/greedy3_plot-1.png)<!-- -->
@@ -145,34 +131,29 @@ is_maximal_proom(R)
 `greedy4` is a modification of `greedy3`.
 
 `greedy4` visits cells in order placing into the next cell the first
-available cell from
-$M(R\_t) \\cap S \\backslash {S(e, R\_t) \\choose 2}$.
+available cell from $M(R_t) \cap S \backslash {S(e, R_t) \choose 2}$.
 
 The difference is that instead of calculating
-$T(R\_t, e) := M(R\_t) \\cap S \\backslash {S(e, R\_t) \\choose 2}$ at
-each step we keep track of it as cells are filled.
+$T(R_t, e) := M(R_t) \cap S \backslash {S(e, R_t) \choose 2}$ at each
+step we keep track of it as cells are filled.
 
-This means initialising $T(R\_t, e) \\leftarrow {S \\choose 2}$ at the
-beginning and then after filling an empty cell *e* with
-*p* = {*x*, *y*}:
+This means initialising $T(R_t, e) \leftarrow {S \choose 2}$ at the
+beginning and then after filling an empty cell $e$ with $p = \{x, y\}$:
 
--   removing every pair *p*′ containing either *x* or *y* from all lists
-    of available pairs *e*′ in the same row or column as *e*:
-    *T*(*R*<sub>*t* + 1</sub>, *e*′) ← *T*(*R*<sub>*t*</sub>, *e*′) ∖ *p*′
--   removing *p* from the list of available pairs for every other empty
-    cell *e*′:
-    *T*(*R*<sub>*t* + 1</sub>, *e*′) ← *T*(*R*<sub>*t*</sub>, *e*′) ∖ *p*
+-   removing every pair $p\prime$ containing either $x$ or $y$ from all
+    lists of available pairs $e\prime$ in the same row or column as $e$:
+    $T(R_{t + 1}, e\prime) \leftarrow T(R_t, e\prime)\backslash p\prime$
+-   removing $p$ from the list of available pairs for every other empty
+    cell $e\prime$:
+    $T(R_{t + 1}, e\prime) \leftarrow T(R_t, e\prime)\backslash p$
 
 ``` r
-n <- 10
+n <- 14
 
 tic()
-R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
-  mutate(first = as.numeric(NA), second = as.numeric(NA)) %>%
-  mutate(Pe = list(combn(as.numeric(0:(n - 1)), 2, simplify = FALSE))) %>%
-  greedy4()
+R <- greedy4(14)
 toc()
-#> 0.949 sec elapsed
+#> 4.249 sec elapsed
 ```
 
 ``` r
