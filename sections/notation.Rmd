@@ -33,16 +33,14 @@ if it appears in the same row or column
 as
 $e$.
 
-For now we'll just live without
-special notation for
-$S \backslash S(e, R)$:
-the subset of symbols
-not seen by $e$.
-
-We also talk about the subset
-$S \backslash S(e, R) \choose 2$:
-the subset of all pairs
-that can be made from symbols
+So
+$S \backslash S(e, R)$
+is the subset of symbols
+not seen by $e$
+and
+$S \backslash S(e, R) \choose 2$
+is the subset of all pairs
+made from symbols
 not seen by $e$.
 
 Notice that it is possible
@@ -60,5 +58,3 @@ symbols in the same row
 or column may
 or may not
 already appear somewhere in R.
-
-
