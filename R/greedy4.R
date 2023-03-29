@@ -1,13 +1,18 @@
 # this works by tracking available pairs
-greedy4 <- function(R, E = empty_cells(R)) {
+greedy4 <- function(n) {
+  
+  R <- empty_room(n) %>%
+    mutate(Pe = list(combn(as.numeric(0:(n - 1)), 2, simplify = FALSE)))
+  
+  E <- empty_cells(R)
 
   i <- 0
   
-  log_df <- tibble()
+  #log_df <- tibble()
   
   for(e in E) {
 
-    log_df <- bind_rows(log_df, R %>% mutate(t = i))
+    #log_df <- bind_rows(log_df, R %>% mutate(t = i))
     
     # these pairs are available
     Pe <- R[R$row == e[1] & R$col == e[2], "Pe"]$Pe[[1]]
@@ -41,7 +46,7 @@ greedy4 <- function(R, E = empty_cells(R)) {
     
   }
   
-  readr::write_rds(log_df, file = "log/log_df.rds")
+  #readr::write_rds(log_df, file = "log/log_df.rds")
 
   return(R)
 }

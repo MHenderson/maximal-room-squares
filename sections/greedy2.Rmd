@@ -18,11 +18,7 @@ Room square.
 n <- 10
 
 tic()
-# iterate through pairs in given order
-R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
-  mutate(first = as.integer(NA), second = as.integer(NA)) %>%
-  mutate(avail = list(0:(n - 1))) %>%
-  greedy2()
+R <- greedy2(n)
 toc()
 ```
 
@@ -36,7 +32,7 @@ nf <- n_filled_cells(R)
 v <- volume(R)
 
 ggplot(data = R %>% pivot_wider(), aes(col, row)) +
-  geom_segment(data = grid_lines(n-1, n-1), aes(x = x, y = y, xend = xend, yend = yend), size = .1) +
+  geom_segment(data = grid_lines(n - 1, n - 1), aes(x = x, y = y, xend = xend, yend = yend), linewidth = .1) +
   geom_text(data = R %>% pivot_wider() %>% filter(!is.na(first)), aes(label = paste(first, second, sep = ","))) +
   scale_y_reverse() +
   coord_fixed() + 

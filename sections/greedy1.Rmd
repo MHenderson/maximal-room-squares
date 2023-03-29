@@ -15,14 +15,10 @@ pair not violating the conditions
 of being a partial Room square.
 
 ```{r greedy1_alg}
-# the order of maximal partial Room square we are looking for
 n <- 10
 
 tic()
-R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
-  mutate(first = as.integer(NA), second = as.integer(NA)) %>%
-  mutate(avail = list(0:(n - 1))) %>%
-  greedy1()
+R <- greedy1(n)
 toc()
 ```
 
@@ -34,9 +30,10 @@ is_maximal_proom(R)
 ```{r greedy1_plot, echo=FALSE, message=FALSE, fig.width=9, fig.height=9}
 nf <- n_filled_cells(R)
 v <- volume(R)
+n <- 10
 
 ggplot(data = R %>% pivot_wider(), aes(col, row)) +
-  geom_segment(data = grid_lines(n-1, n-1), aes(x = x, y = y, xend = xend, yend = yend), size = .1) +
+  geom_segment(data = grid_lines(n - 1, n - 1), aes(x = x, y = y, xend = xend, yend = yend), linewidth = .1) +
   geom_text(data = R %>% pivot_wider() %>% filter(!is.na(first)), aes(label = paste(first, second, sep = ","))) +
   scale_y_reverse() +
   coord_fixed() + 

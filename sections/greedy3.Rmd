@@ -36,41 +36,11 @@ $S\backslash S(e\prime, R_{t + 1}) \leftarrow S(e, R) \backslash {x}$
 and
 $S\backslash S(e\prime, R_{t + 1}) \leftarrow S(e, R) \backslash {y}$.
 
-
-```{r greedy3_init_alt, include=FALSE}
-# this is needed simply because when I use graph
-# intersection i have to use the symbols 1..n
-# instead of 0..n-1 because igraph
-# doesn't like 0 for a vertex label
-# seems like i ought to rewrite intersect_G to handle
-# that case rather than rewrite this function
-# or generalise it
-not_used_pairs <- function(R) {
-  n <- max(R$row) + 1
-  # find the pairs already used
-  used_pairs <- R %>% select(first, second)
-  # construct the set of pairs not used (namely all pairs minus used pairs)
-  x <- combn(1:n, 2)
-
-  all_pairs <- tibble(
-    first = as.numeric(x[1,]),
-    second = as.numeric(x[2,])
-  )
-
-  anti_join(all_pairs, used_pairs, by = c("first", "second")) %>%
-    mutate(ffs = map2(first, second, c)) %>%
-    pull(ffs)
-}
-```
-
 ```{r greedy3_alg}
 n <- 10
 
 tic()
-R <- expand_grid(row = 1:(n - 1), col = 1:(n - 1)) %>%
-  mutate(first = as.numeric(NA), second = as.numeric(NA)) %>%
-  mutate(avail = list(1:n)) %>%
-  greedy3()
+R <- greedy3(n)
 toc()
 ```
 
@@ -84,7 +54,7 @@ nf <- n_filled_cells(R)
 v <- volume(R)
 
 ggplot(data = R %>% pivot_wider(), aes(col, row)) +
-  geom_segment(data = grid_lines(n-1, n-1), aes(x = x, y = y, xend = xend, yend = yend), size = .1) +
+  geom_segment(data = grid_lines(n - 1, n - 1), aes(x = x, y = y, xend = xend, yend = yend), linewidth = .1) +
   geom_text(data = R %>% pivot_wider() %>% filter(!is.na(first)), aes(label = paste(first, second, sep = ","))) +
   scale_y_reverse() +
   coord_fixed() + 

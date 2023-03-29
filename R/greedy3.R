@@ -1,4 +1,33 @@
-greedy3 <- function(R, P = not_used_pairs(R), E = empty_cells(R)) {
+greedy3 <- function(n) {
+  
+  # this is needed simply because when I use graph
+  # intersection i have to use the symbols 1..n
+  # instead of 0..n-1 because igraph
+  # doesn't like 0 for a vertex label
+  # seems like i ought to rewrite intersect_G to handle
+  # that case rather than rewrite this function
+  # or generalise it
+  not_used_pairs <- function(R) {
+    n <- max(R$row) + 1
+    # find the pairs already used
+    used_pairs <- R %>% select(first, second)
+    # construct the set of pairs not used (namely all pairs minus used pairs)
+    x <- combn(1:n, 2)
+    
+    all_pairs <- tibble(
+      first = as.numeric(x[1,]),
+      second = as.numeric(x[2,])
+    )
+    
+    anti_join(all_pairs, used_pairs, by = c("first", "second")) %>%
+      mutate(ffs = map2(first, second, c)) %>%
+      pull(ffs)
+  }
+  
+  R <- empty_room(n) %>% mutate(avail = list(1:n))
+  
+  P <- not_used_pairs(R)
+  E <- empty_cells(R)
   
   for(e in E) {
     
@@ -46,5 +75,5 @@ greedy3 <- function(R, P = not_used_pairs(R), E = empty_cells(R)) {
     R[R$col == e[2], "avail"]$avail <- lapply(R[R$col == e[2], "avail"]$avail, remove_both, p)
     
   }
-  return(R)
+  return(R %>% select(-avail))
 }

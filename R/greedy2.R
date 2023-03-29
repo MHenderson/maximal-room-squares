@@ -1,4 +1,7 @@
-greedy2 <- function(R) {
+greedy2 <- function(n) {
+  
+  R <- empty_room(n) %>% mutate(avail = list(0:(n - 1)))
+  
   # pairs to be used in order
   P <- not_used_pairs(R)
   # empty cells to be visited in order
@@ -41,5 +44,5 @@ greedy2 <- function(R) {
     }
     
   }
-  return(R)
+  return(R %>% select(-avail))
 }
