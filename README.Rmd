@@ -51,48 +51,64 @@ knitr::opts_chunk$set(
 )
 
 sapply(list.files("R", full.names = TRUE), source)
-
-library(ggplot2)
-library(glue)
-library(tictoc)
 ```
 
-Four different greedy procedures
+Two different greedy procedures
 for building maximal partial Room squares
 in R
 inspired by
 @meszkaMaximalPartialRoom2021.
 
-# Notation
+# I: greedy1
 
-```{r notation, child="sections/notation.Rmd"}
+`greedy1`
+visits all cells in order placing
+into the next cell the first available
+pair not violating the conditions
+of being a partial Room square.
 
+```{r greedy1_alg}
+library(tictoc)
+
+n <- 10
+
+tic()
+R <- greedy1(n)
+toc()
 ```
 
-# Algorithms
-
-## I: greedy1
-
-```{r, child="sections/greedy1.Rmd"}
-
+```{r greedy1_example_plot, echo=FALSE}
+targets::tar_read(greedy1_example_plot)
 ```
 
-## II: greedy2
-
-```{r, child="sections/greedy2.Rmd"}
-
+```{r greedy1_is_maximal_room}
+# is R a maximal partial Room square?
+is_maximal_proom(R)
 ```
 
-## III: greedy3: Calculate available pairs
+# II: greedy2
 
-```{r, child="sections/greedy3.Rmd"}
+`greedy2`
+iterates through all pairs in order
+placing the next pair in the first available cell
+not violating the conditions of being a partial
+Room square.
 
+```{r greedy2_alg}
+n <- 10
+
+tic()
+R <- greedy2(n)
+toc()
 ```
 
-## IV: greedy4: Track available pairs
+```{r greedy2_example_plot, echo=FALSE}
+targets::tar_read(greedy2_example_plot)
+```
 
-```{r, child="sections/greedy4.Rmd"}
-
+```{r greedy_2_is_maximal_room}
+# is R a maximal partial Room square?
+is_maximal_proom(R)
 ```
 
 # References
