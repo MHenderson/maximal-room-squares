@@ -42,6 +42,21 @@ list(
     name = greedy2_example_plot,
     command = plot_room_square(greedy2_example)
   ),
+  tar_target(orders, seq(10, 20, 2)),
+  tar_target(
+    results,
+    tibble(
+            n = as.integer(orders),
+      greedy1 = list(greedy1(orders)),
+      greedy2 = list(greedy2(orders))
+    ) %>%
+      pivot_longer(-n) %>%
+      mutate(
+        n_filled_cells = map_dbl(value, n_filled_cells),
+                volume = map_dbl(value, volume),
+      ),
+    pattern = map(orders)
+  ),
   tar_render(
     name = readme,
     "README.Rmd"
