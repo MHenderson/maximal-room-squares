@@ -26,7 +26,7 @@ n <- 10
 tic()
 R <- greedy1(n)
 toc()
-#> 0.17 sec elapsed
+#> 0.075 sec elapsed
 ```
 
 ![](figure/greedy1_example_plot-1.png)<!-- -->
@@ -49,7 +49,7 @@ n <- 10
 tic()
 R <- greedy2(n)
 toc()
-#> 0.239 sec elapsed
+#> 0.188 sec elapsed
 ```
 
 ![](figure/greedy2_example_plot-1.png)<!-- -->
@@ -64,21 +64,20 @@ is_maximal_proom(R)
 
 ``` r
 targets::tar_read(results)
-#> # A tibble: 12 × 5
-#>        n name    value              n_filled_cells volume
-#>    <int> <chr>   <list>                      <dbl>  <dbl>
-#>  1    10 greedy1 <tibble [81 × 4]>              33  0.733
-#>  2    10 greedy2 <tibble [81 × 4]>              37  0.822
-#>  3    12 greedy1 <tibble [121 × 4]>             55  0.833
-#>  4    12 greedy2 <tibble [121 × 4]>             50  0.758
-#>  5    14 greedy1 <tibble [169 × 4]>             76  0.835
-#>  6    14 greedy2 <tibble [169 × 4]>             74  0.813
-#>  7    16 greedy1 <tibble [225 × 4]>            101  0.842
-#>  8    16 greedy2 <tibble [225 × 4]>            104  0.867
-#>  9    18 greedy1 <tibble [289 × 4]>            127  0.830
-#> 10    18 greedy2 <tibble [289 × 4]>            131  0.856
-#> 11    20 greedy1 <tibble [361 × 4]>            163  0.858
-#> 12    20 greedy2 <tibble [361 × 4]>            151  0.795
+#> # A tibble: 190 × 5
+#>        n name    value             n_filled_cells volume
+#>    <int> <chr>   <list>                     <dbl>  <dbl>
+#>  1     1 greedy1 <tibble [4 × 4]>               0  0    
+#>  2     1 greedy2 <tibble [4 × 4]>               0  0    
+#>  3     2 greedy1 <tibble [1 × 4]>               1  1    
+#>  4     2 greedy2 <tibble [1 × 4]>               1  1    
+#>  5     3 greedy1 <tibble [4 × 4]>               2  0.667
+#>  6     3 greedy2 <tibble [4 × 4]>               2  0.667
+#>  7     4 greedy1 <tibble [9 × 4]>               4  0.667
+#>  8     4 greedy2 <tibble [9 × 4]>               3  0.5  
+#>  9     5 greedy1 <tibble [16 × 4]>              7  0.7  
+#> 10     5 greedy2 <tibble [16 × 4]>              7  0.7  
+#> # ℹ 180 more rows
 ```
 
 # References

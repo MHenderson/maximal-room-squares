@@ -42,7 +42,7 @@ list(
     name = greedy2_example_plot,
     command = plot_room_square(greedy2_example)
   ),
-  tar_target(orders, seq(10, 20, 2)),
+  tar_target(orders, seq(1, 95, 1)),
   tar_target(
     results,
     tibble(
