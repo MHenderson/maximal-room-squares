@@ -79,7 +79,7 @@ toc()
 ```
 
 ```{r greedy1_example_plot, echo=FALSE}
-targets::tar_read(greedy1_example_plot)
+plot_room_square(R)
 ```
 
 ```{r greedy1_is_maximal_room}
@@ -104,7 +104,7 @@ toc()
 ```
 
 ```{r greedy2_example_plot, echo=FALSE}
-targets::tar_read(greedy2_example_plot)
+plot_room_square(R)
 ```
 
 ```{r greedy_2_is_maximal_room}

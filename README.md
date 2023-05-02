@@ -25,7 +25,7 @@ n <- 10
 tic()
 R <- greedy1(n)
 toc()
-#> 0.194 sec elapsed
+#> 0.173 sec elapsed
 ```
 
 ![](figure/greedy1_example_plot-1.png)<!-- -->
@@ -48,7 +48,7 @@ n <- 10
 tic()
 R <- greedy2(n)
 toc()
-#> 0.254 sec elapsed
+#> 0.264 sec elapsed
 ```
 
 ![](figure/greedy2_example_plot-1.png)<!-- -->
