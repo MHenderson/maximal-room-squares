@@ -14,8 +14,8 @@ squares in R inspired by Meszka and Rosa (2021).
 # I: greedy1
 
 `greedy1` visits all cells in order placing into the next cell the first
-available pair not violating the conditions of being a partial Room
-square.
+available pair such that the conditions of being a partial Room square
+will not be violated.
 
 ``` r
 library(tictoc)
@@ -25,7 +25,7 @@ n <- 10
 tic()
 R <- greedy1(n)
 toc()
-#> 0.172 sec elapsed
+#> 0.194 sec elapsed
 ```
 
 ![](figure/greedy1_example_plot-1.png)<!-- -->
@@ -39,8 +39,8 @@ is_maximal_proom(R)
 # II: greedy2
 
 `greedy2` iterates through all pairs in order placing the next pair in
-the first available cell not violating the conditions of being a partial
-Room square.
+the first available cell such that the conditions of being a partial
+Room square are not violated.
 
 ``` r
 n <- 10
@@ -48,7 +48,7 @@ n <- 10
 tic()
 R <- greedy2(n)
 toc()
-#> 0.232 sec elapsed
+#> 0.254 sec elapsed
 ```
 
 ![](figure/greedy2_example_plot-1.png)<!-- -->

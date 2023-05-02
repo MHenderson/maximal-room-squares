@@ -64,8 +64,9 @@ inspired by
 `greedy1`
 visits all cells in order placing
 into the next cell the first available
-pair not violating the conditions
-of being a partial Room square.
+pair such that the conditions
+of being a partial Room square
+will not be violated.
 
 ```{r greedy1_alg}
 library(tictoc)
@@ -91,8 +92,8 @@ is_maximal_proom(R)
 `greedy2`
 iterates through all pairs in order
 placing the next pair in the first available cell
-not violating the conditions of being a partial
-Room square.
+such that the conditions of being a partial
+Room square are not violated.
 
 ```{r greedy2_alg}
 n <- 10
