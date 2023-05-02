@@ -2,12 +2,14 @@ is_maximal_proom <- function(R) {
  
   result <- is_partial_room(R)
   
+  n <- max(R$col)
+  
   R <- R %>%
     mutate(
       see = map2(row, col, see2, R = R)
     ) %>%
     mutate(
-      avail = map(see, setdiff, x = 0:9)
+      avail = map(see, setdiff, x = 0:(n + 1))
     )
   
   # iterate through the set of unusued pairs trying to place them
