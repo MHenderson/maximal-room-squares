@@ -9,7 +9,7 @@ is_maximal_proom <- function(R) {
       see = map2(row, col, see2, R = R)
     ) %>%
     mutate(
-      avail = map(see, setdiff, x = 0:(n + 1))
+      avail = map(see, setdiff, x = 0:(n - 1))
     )
   
   # iterate through the set of unusued pairs trying to place them
