@@ -4,7 +4,6 @@ Matthew Henderson
 
 -   [I: greedy1](#i-greedy1)
 -   [II: greedy2](#ii-greedy2)
--   [Results](#results)
 -   [References](#references)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -26,7 +25,7 @@ n <- 10
 tic()
 R <- greedy1(n)
 toc()
-#> 0.075 sec elapsed
+#> 0.172 sec elapsed
 ```
 
 ![](figure/greedy1_example_plot-1.png)<!-- -->
@@ -49,7 +48,7 @@ n <- 10
 tic()
 R <- greedy2(n)
 toc()
-#> 0.188 sec elapsed
+#> 0.232 sec elapsed
 ```
 
 ![](figure/greedy2_example_plot-1.png)<!-- -->
@@ -58,26 +57,6 @@ toc()
 # is R a maximal partial Room square?
 is_maximal_proom(R)
 #> [1] TRUE
-```
-
-# Results
-
-``` r
-targets::tar_read(results)
-#> # A tibble: 190 × 5
-#>        n name    value             n_filled_cells volume
-#>    <int> <chr>   <list>                     <dbl>  <dbl>
-#>  1     1 greedy1 <tibble [4 × 4]>               0  0    
-#>  2     1 greedy2 <tibble [4 × 4]>               0  0    
-#>  3     2 greedy1 <tibble [1 × 4]>               1  1    
-#>  4     2 greedy2 <tibble [1 × 4]>               1  1    
-#>  5     3 greedy1 <tibble [4 × 4]>               2  0.667
-#>  6     3 greedy2 <tibble [4 × 4]>               2  0.667
-#>  7     4 greedy1 <tibble [9 × 4]>               4  0.667
-#>  8     4 greedy2 <tibble [9 × 4]>               3  0.5  
-#>  9     5 greedy1 <tibble [16 × 4]>              7  0.7  
-#> 10     5 greedy2 <tibble [16 × 4]>              7  0.7  
-#> # ℹ 180 more rows
 ```
 
 # References

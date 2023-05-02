@@ -111,10 +111,4 @@ targets::tar_read(greedy2_example_plot)
 is_maximal_proom(R)
 ```
 
-# Results
-
-```{r results}
-targets::tar_read(results)
-```
-
 # References
