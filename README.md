@@ -18,8 +18,8 @@ available pair such that the conditions of being a partial Room square
 will not be violated.
 
 ``` r
-R <- greedy1(8)
-plot_room_square(R)
+R <- greedy1(6)
+plot_room_square_labs(R)
 ```
 
 ![](figure/greedy1_example_plot-1.png)<!-- -->
@@ -33,6 +33,12 @@ is_maximal_proom(R)
 #> [1] TRUE
 ```
 
+## A few examples of maximal partial Room squares constructed with greedy1
+
+![](figure/greedy1_examples_1-1.png)<!-- -->
+
+![](figure/greedy1_examples_2-1.png)<!-- -->
+
 # II: greedy2
 
 `greedy2` iterates through all pairs in order placing the next pair in
@@ -41,7 +47,7 @@ Room square are not violated.
 
 ``` r
 R <- greedy2(8)
-plot_room_square(R)
+plot_room_square_labs(R)
 ```
 
 ![](figure/greedy2_example_plot-1.png)<!-- -->
@@ -54,6 +60,12 @@ darkest.
 is_maximal_proom(R)
 #> [1] TRUE
 ```
+
+## A few examples of maximal partial Room squares constructed with greedy2
+
+![Put a caption here](figure/greedy2_examples_1-1.png)
+
+![](figure/greedy2_examples_2-1.png)<!-- -->
 
 # References
 

@@ -4,6 +4,7 @@ author: Matthew Henderson
 output:
   github_document:
     toc: yes
+    toc_depth: 1
   html_document:
     toc: yes
 editor_options: 
@@ -69,8 +70,8 @@ of being a partial Room square
 will not be violated.
 
 ```{r greedy1_example_plot}
-R <- greedy1(8)
-plot_room_square(R)
+R <- greedy1(6)
+plot_room_square_labs(R)
 ```
 
 In this plot colour represents the order in which cells were filled.
@@ -79,6 +80,23 @@ The cells were filled in order from lightest to darkest.
 ```{r greedy1_is_maximal_room}
 # is R a maximal partial Room square?
 is_maximal_proom(R)
+```
+
+## A few examples of maximal partial Room squares constructed with greedy1
+
+```{r greedy1_examples_1, echo=FALSE}
+library(patchwork)
+
+R1 <- greedy1(8)
+R2 <- greedy1(10)
+
+(plot_room_square_labs(R1) + plot_room_square_labs(R2))
+```
+
+```{r greedy1_examples_2, echo=FALSE}
+R3 <- greedy1(12)
+
+plot_room_square_labs(R3)
 ```
 
 # II: greedy2
@@ -91,7 +109,7 @@ Room square are not violated.
 
 ```{r greedy2_example_plot}
 R <- greedy2(8)
-plot_room_square(R)
+plot_room_square_labs(R)
 ```
 
 Again colour represents order of filling, proceeding from lightest to darkest.
@@ -99,6 +117,21 @@ Again colour represents order of filling, proceeding from lightest to darkest.
 ```{r greedy_2_is_maximal_room}
 # is R a maximal partial Room square?
 is_maximal_proom(R)
+```
+
+## A few examples of maximal partial Room squares constructed with greedy2
+
+```{r greedy2_examples_1, echo=FALSE, fig.cap="Put a caption here"}
+R1 <- greedy2(8)
+R2 <- greedy2(10)
+
+(plot_room_square_labs(R1) + plot_room_square_labs(R2))
+```
+
+```{r greedy2_examples_2, echo=FALSE}
+R3 <- greedy2(12)
+
+plot_room_square_labs(R3)
 ```
 
 # References

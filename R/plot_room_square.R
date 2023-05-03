@@ -1,9 +1,6 @@
 plot_room_square <- function(R) {
-
-  n <- max(R$col) + 1
   
-  nf <- n_filled_cells(R)
-  v <- volume(R)
+  n <- max(R$col) + 1
   
   ggplot2::ggplot(data = R, ggplot2::aes(col, row)) +
     ggplot2::geom_tile(data = R %>% dplyr::filter(!is.na(first)), ggplot2::aes(fill = visit)) +
@@ -16,10 +13,20 @@ plot_room_square <- function(R) {
     ggplot2::theme(
       legend.position  = "none"
     ) +
-    ggplot2::scale_fill_gradient(limits = c(0, choose(n, 2)), low = "white", high = "blue") +
+    ggplot2::scale_fill_gradient(limits = c(0, choose(n, 2)), low = "white", high = "blue")
+}
+
+plot_room_square_labs <- function(R) {
+
+  n <- max(R$col) + 1
+  
+  nf <- n_filled_cells(R)
+  v <- volume(R)
+  
+  plot_room_square(R) +
     ggplot2::labs(
-      title = glue::glue("A maximal partial Room square of order {n}"),
-      subtitle = glue::glue("Number of filled cells: {nf}, Volume: {v}.")
-    )
+      caption = glue::glue("Order: {n}\nFilled cells: {nf}\nVolume: {v}")
+    ) +
+    ggplot2::theme(plot.caption = ggplot2::element_text(hjust = 0)) 
 
 }
