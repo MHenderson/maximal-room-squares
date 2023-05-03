@@ -68,19 +68,13 @@ pair such that the conditions
 of being a partial Room square
 will not be violated.
 
-```{r greedy1_alg}
-library(tictoc)
-
-n <- 10
-
-tic()
-R <- greedy1(n)
-toc()
-```
-
-```{r greedy1_example_plot, echo=FALSE}
+```{r greedy1_example_plot}
+R <- greedy1(8)
 plot_room_square(R)
 ```
+
+In this plot colour represents the order in which cells were filled.
+The cells were filled in order from lightest to darkest.
 
 ```{r greedy1_is_maximal_room}
 # is R a maximal partial Room square?
@@ -95,17 +89,12 @@ placing the next pair in the first available cell
 such that the conditions of being a partial
 Room square are not violated.
 
-```{r greedy2_alg}
-n <- 10
-
-tic()
-R <- greedy2(n)
-toc()
-```
-
-```{r greedy2_example_plot, echo=FALSE}
+```{r greedy2_example_plot}
+R <- greedy2(8)
 plot_room_square(R)
 ```
+
+Again colour represents order of filling, proceeding from lightest to darkest.
 
 ```{r greedy_2_is_maximal_room}
 # is R a maximal partial Room square?

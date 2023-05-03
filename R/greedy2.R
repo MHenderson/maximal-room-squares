@@ -1,11 +1,16 @@
 greedy2 <- function(n) {
   
-  R <- empty_room(n) %>% mutate(avail = list(0:(n - 1)))
+  R <- empty_room(n) %>%
+    mutate(avail = list(0:(n - 1))) %>%
+    mutate(visit = as.numeric(NA))
   
   # pairs to be used in order
   P <- not_used_pairs(R)
   # empty cells to be visited in order
   E <- empty_cells(R)
+  
+  t <- 1
+  
   for(p in P) {
     
     # iterate through empty cells in given order
@@ -37,6 +42,9 @@ greedy2 <- function(n) {
         R[R$row == e[1], "avail"]$avail <- lapply(R[R$row == e[1], "avail"]$avail, remove_both, p)
         # remove both elements of p from lists of available symbols in col e[2]
         R[R$col == e[2], "avail"]$avail <- lapply(R[R$col == e[2], "avail"]$avail, remove_both, p)
+        
+        R[R$row == e[1] & R$col == e[2], "visit"] <- t
+        t <- t + 1
         
         break()
       }
