@@ -42,6 +42,9 @@ references:
   volume: '29'
 ---
 
+[![DOI](https://zenodo.org/badge/544776750.svg)](https://zenodo.org/badge/latestdoi/544776750)
+
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}

@@ -6,6 +6,8 @@ Matthew Henderson
 -   [II: greedy2](#ii-greedy2)
 -   [References](#references)
 
+[![DOI](https://zenodo.org/badge/544776750.svg)](https://zenodo.org/badge/latestdoi/544776750)
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 Two different greedy procedures for building maximal partial Room
