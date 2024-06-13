@@ -32,12 +32,6 @@ distinct_pairs <- function(R) {
     distinct(first, second)
 }
 
-n_filled_cells <- function(R) {
-  R %>%
-    filter(!is.na(first)) %>% 
-    nrow()
-}
-
 is_partial_room <- function(R) {
   expected_number_of_distinct_pairs <- choose(max(R$col) + 1, 2)
   nfc <- n_filled_cells(R)
