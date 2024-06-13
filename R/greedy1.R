@@ -1,8 +1,8 @@
 greedy1 <- function(n) {
   
-  R <- empty_room(n) %>%
-    mutate(avail = list(0:(n - 1))) %>%
-    mutate(visit = as.numeric(NA))
+  R <- empty_room(n) |>
+    dplyr::mutate(avail = list(0:(n - 1))) |>
+    dplyr::mutate(visit = as.numeric(NA))
   
   # pairs to be used in order
   P <- not_used_pairs(R)
@@ -39,9 +39,9 @@ greedy1 <- function(n) {
         P <- P[-match(list(p), P)]
         
         # 4. remove both elements of p from lists of available symbols in row e[1]
-        R[R$row == e[1], "avail"]$avail <- lapply(R[R$row == e[1], "avail"]$avail, remove_both, p)
+        R[R$row == e[1], "avail"]$avail <- lapply(R[R$row == e[1], "avail"]$avail, wallis:::remove_both, p)
         # 5. remove both elements of p from lists of available symbols in col e[2]
-        R[R$col == e[2], "avail"]$avail <- lapply(R[R$col == e[2], "avail"]$avail, remove_both, p)
+        R[R$col == e[2], "avail"]$avail <- lapply(R[R$col == e[2], "avail"]$avail, wallis:::remove_both, p)
         
         R[R$row == e[1] & R$col == e[2], "visit"] <- t
         t <- t + 1
@@ -54,5 +54,5 @@ greedy1 <- function(n) {
     
   }
   
-  return(R %>% select(-avail))
+  return(R |> dplyr::select(-avail))
 }
