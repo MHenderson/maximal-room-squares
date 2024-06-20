@@ -7,9 +7,7 @@ library(wallis)
 source(here("R", "empty_cells.R"))
 source(here("R", "empty_room.R"))
 source(here("R", "greedy1.R"))
-source(here("R", "n-filled-cells.R"))
 source(here("R", "not_used_pairs.R"))
-source(here("R", "volume.R"))
 
 n <- 6
 
