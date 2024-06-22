@@ -5,7 +5,7 @@ greedy1 <- function(n) {
     dplyr::mutate(visit = as.numeric(NA))
   
   # pairs to be used in order
-  P <- not_used_pairs(R)
+  P <- unused_pairs(R)
   # empty cells to be visited in order
   E <- empty_cells(R)
   
