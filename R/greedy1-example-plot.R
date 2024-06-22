@@ -4,10 +4,8 @@ library(glue)
 library(here)
 library(wallis)
 
-source(here("R", "empty_cells.R"))
 source(here("R", "empty_room.R"))
 source(here("R", "greedy1.R"))
-source(here("R", "not_used_pairs.R"))
 
 n <- 6
 

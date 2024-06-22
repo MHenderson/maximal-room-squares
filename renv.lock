@@ -552,14 +552,9 @@
     },
     "wallis": {
       "Package": "wallis",
-      "Version": "0.0.0.9002",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "MHenderson",
-      "RemoteRepo": "wallis",
-      "RemoteRef": "main",
-      "RemoteSha": "298d4cb70c2cbb06f14c1d16f83554f6061a3c0e",
+      "Version": "0.0.0.9003",
+      "Source": "Repository",
+      "Repository": "https://mhenderson.r-universe.dev",
       "Requirements": [
         "dplyr",
         "ggplot2",
@@ -567,7 +562,7 @@
         "tibble",
         "tidyr"
       ],
-      "Hash": "f4d6196a6be038a6f6d7ba18455491e7"
+      "Hash": "0e842483f03c317ce9c39f27a653da70"
     },
     "withr": {
       "Package": "withr",
