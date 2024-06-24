@@ -552,7 +552,7 @@
     },
     "wallis": {
       "Package": "wallis",
-      "Version": "0.0.0.9003",
+      "Version": "0.0.0.9004",
       "Source": "Repository",
       "Repository": "https://mhenderson.r-universe.dev",
       "Requirements": [
@@ -562,7 +562,7 @@
         "tibble",
         "tidyr"
       ],
-      "Hash": "0e842483f03c317ce9c39f27a653da70"
+      "Hash": "b945784ae6ec5325e959f9e63ac3c67d"
     },
     "withr": {
       "Package": "withr",

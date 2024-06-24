@@ -4,7 +4,6 @@ library(glue)
 library(here)
 library(wallis)
 
-source(here("R", "empty_room.R"))
 source(here("R", "greedy1.R"))
 
 n <- 6
