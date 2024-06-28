@@ -16,6 +16,8 @@ Two different greedy procedures for building maximal partial Room squares in R i
 
 ![](plots/greedy2-examples1-plot.png)
 
+![](plots/greedy2-examples2-plot.png)
+
 # References
 
 <div id="refs" class="references csl-bib-body hanging-indent">
