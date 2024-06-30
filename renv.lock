@@ -210,29 +210,6 @@
       ],
       "Hash": "24b224366f9c2e7534d2344d10d59211"
     },
-    "igraph": {
-      "Package": "igraph",
-      "Version": "2.0.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "Matrix",
-        "R",
-        "cli",
-        "cpp11",
-        "grDevices",
-        "graphics",
-        "lifecycle",
-        "magrittr",
-        "methods",
-        "pkgconfig",
-        "rlang",
-        "stats",
-        "utils",
-        "vctrs"
-      ],
-      "Hash": "c3b7d801d722e26e4cd888e042bf9af5"
-    },
     "isoband": {
       "Package": "isoband",
       "Version": "0.2.7",
@@ -570,7 +547,7 @@
     },
     "wallis": {
       "Package": "wallis",
-      "Version": "0.0.0.9004",
+      "Version": "0.0.0.9005",
       "Source": "Repository",
       "Repository": "https://mhenderson.r-universe.dev",
       "Requirements": [
@@ -580,7 +557,7 @@
         "tibble",
         "tidyr"
       ],
-      "Hash": "b945784ae6ec5325e959f9e63ac3c67d"
+      "Hash": "0f98746972ebe0cf491b4f4e7db26f3c"
     },
     "withr": {
       "Package": "withr",
