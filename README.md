@@ -4,15 +4,17 @@
 
 Two different greedy procedures for building maximal partial Room squares in R inspired by Meszka and Rosa (2021).
 
-# greedy1
+## greedy1
 
-![](plots/greedy1-example-plot.png)
+See `R/greedy1.R`.
 
 ![](plots/greedy1-examples1-plot.png)
 
 ![](plots/greedy1-examples2-plot.png)
 
-# greedy2
+## greedy2
+
+See `R/greedy2.R`.
 
 ![](plots/greedy2-examples1-plot.png)
 
