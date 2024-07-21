@@ -1,13 +1,13 @@
 greedy1 <- function(n) {
   
-  R <- empty_room(n) |>
+  R <- wallis::empty_room(n) |>
     dplyr::mutate(avail = list(0:(n - 1))) |>
     dplyr::mutate(visit = as.numeric(NA))
   
   # pairs to be used in order
-  P <- unused_pairs(R)
+  P <- wallis::unused_pairs(R)
   # empty cells to be visited in order
-  E <- empty_cells(R)
+  E <- wallis::empty_cells(R)
   
   t <- 1
 
